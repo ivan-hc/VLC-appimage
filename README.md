@@ -2,7 +2,10 @@
 AppImage for VLC Video and Media Player from Debian Unstable
 
 This repository provides the script to create and install the latest version of VLC from Debian Unstable, and an AppImage ready to be used.
-This version is only a sample, furter versions can be easily managed by installing [AM Application Manager](https://github.com/ivan-hc/AM-application-manager).
+
+This version is only a sample.
+
+Furter versions can be easily managed by installing [AM Application Manager](https://github.com/ivan-hc/AM-application-manager).
 # How to integrate VLC AppImage into the system
 ### Installation
 
