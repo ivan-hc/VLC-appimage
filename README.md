@@ -1,7 +1,7 @@
 # VLC-x86_64.AppImage
-AppImage for VLC Video and Media Player from Debian Unstable
+AppImage for VLC Video and Media Player for GLIBC 2.27 (tested on Ubuntu 18.04 and Debian Testing/Unstable).
 
-This repository provides the script to create and install the latest version of VLC from Debian Unstable, and an AppImage ready to be used.
+This repository provides the script to create and install the latest version of VLC from https://launchpad.net/~savoury1, and an AppImage ready to be used.
 
 This version is only a sample.
 
