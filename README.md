@@ -24,7 +24,8 @@ To download and install a version that includes more plugins (ie vlc-plugin-acce
 ### Uninstall
 
     sudo /opt/vlc/remove
-
+# Known issues
+- Icon in the systray: please, learn more [here](https://github.com/ivan-hc/VLC_media_player-x86_64.AppImage/issues/1)
 
 ------------------------------------
 # These and more scripts will be available on my new repository, at [ivan-hc/AM-application-manager](https://github.com/ivan-hc/AM-application-manager).
