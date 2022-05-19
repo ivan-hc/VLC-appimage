@@ -67,7 +67,6 @@ jobs:
               - libplacebo192
               - libplacebo4" >> recipe.yml;
           
-          cp /opt/$APP/tmp/recipe.yml /opt/$APP/recipe.yml
           
           ./pkg2appimage ./recipe.yml;
           
