@@ -1,0 +1,24 @@
+app: vlc
+binpatch: true
+ingredients:
+  dist: bionic
+  sources:
+    - deb http://archive.ubuntu.com/ubuntu/ bionic main universe restricted multiverse
+    - deb http://archive.ubuntu.com/ubuntu bionic-security main universe restricted multiverse
+    - deb http://archive.ubuntu.com/ubuntu/ bionic-updates main universe restricted multiverse
+  ppas:
+    - savoury1/ffmpeg4
+    - savoury1/vlc3
+    - savoury1/graphics
+    - savoury1/multimedia
+    - savoury1/build-tools
+    - savoury1/backports
+  packages:
+    - vlc
+    - vlc-l10n
+    - vlc-plugin-video-output
+    - x264
+    - x265
+    - libmatroska7
+    - libplacebo192
+    - libplacebo4
