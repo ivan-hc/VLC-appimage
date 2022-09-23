@@ -12,34 +12,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Install Dependencies
-      run: |
-        wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
-	wget https://raw.githubusercontent.com/ivan-hc/AM-application-manager/main/tools/pkg2appimage
-	chmod a+x ./appimagetool ./pkg2appimage
-
     - name: build
       run: |
  	mkdir vlc
  	cd vlc
-        wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/recipe.yml
-	cp /opt/vlc/tmp/recipe.yml /opt/vlc/recipe.yml
-	./pkg2appimage ./recipe.yml;
-	rm -R -f ./vlc/vlc.AppDir/vlc.desktop
-	wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc.desktop
-	mv vlc.desktop ./vlc/vlc.AppDir/vlc.desktop
-	rm -R -f ./vlc/vlc.AppDir/AppRun
-	wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/AppRun
-	chmod a+x AppRun
-	cp ./AppRun /opt/vlc/
-	mv ./AppRun ./vlc/vlc.AppDir
-	ARCH=x86_64 ./appimagetool -n ./vlc/vlc.AppDir
-	underscore=_
-	mkdir version
-	mv ./vlc/vlc$underscore*.deb ./version/
-	version=$(ls /opt/vlc/tmp/version)
-	cd ..;
-	mv ./tmp/*.AppImage vlc.AppImage
+ 	wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
+	- wget https://raw.githubusercontent.com/ivan-hc/AM-application-manager/main/tools/pkg2appimage
+	- chmod a+x ./appimagetool ./pkg2appimage
+        - wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/recipe.yml
+	- cp ./vlc/tmp/recipe.yml ./vlc/recipe.yml
+	- ./pkg2appimage ./recipe.yml;
+	- rm -R -f ./vlc/vlc.AppDir/vlc.desktop
+	- wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc.desktop
+	- mv vlc.desktop ./vlc/vlc.AppDir/vlc.desktop
+	- rm -R -f ./vlc/vlc.AppDir/AppRun
+	- wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/AppRun
+	- chmod a+x AppRun
+	- cp ./AppRun ./vlc/
+	- mv ./AppRun ./vlc/vlc.AppDir
+	- ARCH=x86_64 ./appimagetool -n ./vlc/vlc.AppDir
+	- underscore=_
+	- mkdir version
+	- mv ./vlc/vlc$underscore*.deb ./version/
+	- version=$(ls ./vlc/tmp/version)
+	- cd ..;
+	- mv ./tmp/*.AppImage vlc.AppImage
 
     - name: Release AppImage
       uses: ncipollo/release-action@v1
