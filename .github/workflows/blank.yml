@@ -14,20 +14,14 @@ jobs:
     - uses: actions/checkout@v3
     - name: build
       run: |
+        mkdir dist
         wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc
         chmod a+x ./vlc
         sudo ./vlc
-        mv /opt/vlc/vlc vlc-$VERSION-x86_64.AppImage
+        mv /opt/vlc/vlc dist/vlc-$VERSION-x86_64.AppImage
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: VLC AppImage
-        allowUpdates: True
-        prerelease: False
-        artifacts: "vlc-$VERSION-x86_64.AppImage"
-        token: $VERSION
-        omitNameDuringUpdate: False
-        omitBodyDuringUpdate: False
-        tag: v$VERSION
-        replacesArtifacts: false
+        name: vlc-$VERSION-x86_64.AppImage
+        path: 'dist'
