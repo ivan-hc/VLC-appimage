@@ -17,17 +17,17 @@ jobs:
         wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc
         chmod a+x ./vlc
         sudo ./vlc
-        mv /opt/vlc/vlc vlc.AppImage
+        mv /opt/vlc/vlc vlc-$VERSION-x86_64.AppImage
 
     - name: Release AppImage
-      uses: ncipollo/release-action@v1
+      uses: marvinpinto/action-automatic-releases@latest
       with:
         name: VLC AppImage
         allowUpdates: True
         prerelease: False
-        artifacts: "VLC.AppImage*"
-        token: $version
+        artifacts: "vlc-$VERSION-x86_64.AppImage"
+        token: $VERSION
         omitNameDuringUpdate: False
         omitBodyDuringUpdate: False
-        tag: v$version
+        tag: v$VERSION
         replacesArtifacts: true
