@@ -23,7 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    
     - name: Prerequisites
+      run: |
         VERSION=$(curl -s https://ppa.launchpadcontent.net/savoury1/vlc3/ubuntu/pool/main/v/vlc/ | grep vlc-bin | grep 18.04 | head -1 | cut -f1 -d "~" | grep -Eo "[0-9]+([.][0-9]+)?+[+-]?[0-9]?")
 
     - name: Build appimage
