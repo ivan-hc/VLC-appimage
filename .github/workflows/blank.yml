@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/ivan-hc
     - name: build
       run: |
         wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc
@@ -19,7 +19,8 @@ jobs:
         sudo ./vlc
         mv /opt/vlc/vlc vlc-$VERSION-x86_64.AppImage
 
-    - name: $VERSION
+    - name: Release AppImage
+      uses: actions/ivan-hc
       with:
         name: VLC AppImage
         allowUpdates: True
