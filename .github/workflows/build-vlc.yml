@@ -41,7 +41,7 @@ jobs:
           uses: marvinpinto/action-automatic-releases@latest
           with:
             title: Continuous build
-            automatic_release_tag: continuous-simple
+            automatic_release_tag: continuous
             prerelease: false
             draft: false
             files: |
