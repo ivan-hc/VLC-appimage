@@ -48,5 +48,5 @@ jobs:
             prerelease: false
             draft: false
             files: |
-              vlc-${{ VERSION }}-x86_64.AppImage
+              vlc-continuous-x86_64.AppImage
             repo_token: ${{ secrets.GITHUB_TOKEN }}
