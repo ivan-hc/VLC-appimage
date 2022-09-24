@@ -1,4 +1,4 @@
-app: vlc
+app: VLC
 binpatch: true
 ingredients:
   dist: bionic
