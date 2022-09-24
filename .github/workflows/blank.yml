@@ -11,6 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - uses: marvinpinto/action-automatic-releases@latest
     - name: build
       run: |
         wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc
@@ -19,8 +20,9 @@ jobs:
         mv /opt/vlc/vlc vlc-$VERSION-x86_64.AppImage
 
     - name: Release AppImage
+      uses: marvinpinto/action-automatic-releases@latest
       with:
-        name: $VERSION
+        name: VLC AppImage
         allowUpdates: True
         prerelease: False
         artifacts: "vlc-$VERSION-x86_64.AppImage"
