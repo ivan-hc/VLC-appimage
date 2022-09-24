@@ -18,8 +18,7 @@ jobs:
         wget https://raw.githubusercontent.com/ivan-hc/AM-application-manager/main/tools/pkg2appimage
         chmod a+x ./appimagetool ./pkg2appimage
         wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/recipe.yml
-        cp ./tmp/recipe.yml ./recipe.yml
-        ./pkg2appimage ./recipe.yml;
+        ./pkg2appimage ./recipe.yml
         rm -R -f ./vlc.AppDir/vlc.desktop
         wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc.desktop
         mv vlc.desktop ./vlc.AppDir/vlc.desktop
@@ -32,9 +31,9 @@ jobs:
         underscore=_
         mkdir version
         mv ./vlc$underscore*.deb ./version/
-        version=$(ls ./tmp/version)
+        version=$(ls ./version)
         cd ..;
-        mv ./tmp/*.AppImage vlc.AppImage
+        mv ./*.AppImage vlc.AppImage
 
     - name: Release AppImage
       uses: ncipollo/release-action@v1
