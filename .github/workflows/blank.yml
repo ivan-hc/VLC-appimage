@@ -20,7 +20,7 @@ jobs:
         sudo ./vlc
         mkdir dist
         VERSION=$(curl -s https://ppa.launchpadcontent.net/savoury1/vlc3/ubuntu/pool/main/v/vlc/ | grep vlc-bin | grep 18.04 | head -1 | cut -f1 -d "~" | grep -Eo "[0-9]+([.][0-9]+)?+[+-]?[0-9]?")
-        mv /opt/vlc/vlc dist/vlc-$VERSION-x86_64.AppImage
+        mv /opt/vlc/vlc dist/VLC_media_player-$VERSION-x86_64.AppImage
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
