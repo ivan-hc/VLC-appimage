@@ -12,17 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Prerequisites
-      run: |
-        VERSION=$(curl -s https://ppa.launchpadcontent.net/savoury1/vlc3/ubuntu/pool/main/v/vlc/ | grep vlc-bin | grep 18.04 | head -1 | cut -f1 -d "~" | grep -Eo "[0-9]+([.][0-9]+)?+[+-]?[0-9]?")
-      
+
     - name: build
       run: |
         wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc
         chmod a+x ./vlc
         sudo ./vlc
         mkdir dist
+        VERSION=$(curl -s https://ppa.launchpadcontent.net/savoury1/vlc3/ubuntu/pool/main/v/vlc/ | grep vlc-bin | grep 18.04 | head -1 | cut -f1 -d "~" | grep -Eo "[0-9]+([.][0-9]+)?+[+-]?[0-9]?")
         mv /opt/vlc/vlc dist/vlc-$VERSION-x86_64.AppImage
 
     - name: Upload artifact
