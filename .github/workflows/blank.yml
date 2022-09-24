@@ -15,8 +15,8 @@ jobs:
     - name: build
       run: |
         wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc
-        chmod a+x vlc
-        sudo vlc
+        chmod a+x ./vlc
+        sudo ./vlc
         mv /opt/vlc/vlc vlc.AppImage
 
     - name: Release AppImage
