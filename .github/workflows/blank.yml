@@ -19,8 +19,7 @@ jobs:
         sudo ./vlc
         mv /opt/vlc/vlc vlc-$VERSION-x86_64.AppImage
 
-    - name: Release AppImage
-      uses: actions/checkout@v3
+    - name: $VERSION
       with:
         name: VLC AppImage
         allowUpdates: True
