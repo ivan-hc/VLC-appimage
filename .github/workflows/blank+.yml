@@ -1,0 +1,49 @@
+name: Release Appimage
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: build
+      run: |
+        wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc+
+        chmod a+x ./vlc+
+        sudo ./vlc+
+        mkdir dist
+        VERSION=$(curl -s https://ppa.launchpadcontent.net/savoury1/vlc3/ubuntu/pool/main/v/vlc/ | grep vlc-bin | grep 18.04 | head -1 | cut -f1 -d "~" | grep -Eo "[0-9]+([.][0-9]+)?+[+-]?[0-9]?")
+        mv /opt/vlc/vlc dist/VLC_media_player-[with-plugins]-$VERSION-x86_64.AppImage
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: vlc-continuous-x86_64.AppImage
+        path: 'dist'
+        
+  release:
+      needs: [build]
+      runs-on: ubuntu-latest
+
+      steps:
+        - uses: actions/download-artifact@v1
+          with:
+            name: vlc-continuous-x86_64.AppImage
+
+        - name: release
+          uses: marvinpinto/action-automatic-releases@latest
+          with:
+            title: Continuous build
+            automatic_release_tag: continuous
+            prerelease: false
+            draft: false
+            files: |
+              vlc-continuous-x86_64.AppImage
+            repo_token: ${{ secrets.GITHUB_TOKEN }}
