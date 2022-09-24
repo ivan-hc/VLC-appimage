@@ -1,4 +1,4 @@
-name: Release Appimage
+name: Release VLC Appimage
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
@@ -25,7 +25,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: vlc-continuous-x86_64.AppImage
+        name: VLC_media_player-x86_64.AppImage
         path: 'dist'
         
   release:
@@ -35,15 +35,15 @@ jobs:
       steps:
         - uses: actions/download-artifact@v1
           with:
-            name: vlc-continuous-x86_64.AppImage
+            name: VLC_media_player-x86_64.AppImage
 
         - name: release
           uses: marvinpinto/action-automatic-releases@latest
           with:
             title: Continuous build
-            automatic_release_tag: continuous
+            automatic_release_tag: continuous-simple
             prerelease: false
             draft: false
             files: |
-              vlc-continuous-x86_64.AppImage
+              VLC_media_player-x86_64.AppImage
             repo_token: ${{ secrets.GITHUB_TOKEN }}
