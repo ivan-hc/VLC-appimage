@@ -18,3 +18,16 @@ jobs:
         chmod a+x ./vlc
         sudo ./vlc
         mv /opt/vlc/vlc vlc-$VERSION-x86_64.AppImage
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: VLC AppImage
+        allowUpdates: True
+        prerelease: False
+        artifacts: "vlc-$VERSION-x86_64.AppImage"
+        token: $VERSION
+        omitNameDuringUpdate: False
+        omitBodyDuringUpdate: False
+        tag: v$VERSION
+        replacesArtifacts: false
