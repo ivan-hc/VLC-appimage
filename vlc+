@@ -124,8 +124,8 @@ version=$(ls /opt/$APP-plus/tmp/version)
 echo "$version" >> /opt/$APP-plus/version
 
 cd ..;
-mv ./tmp/*.AppImage ./$APP-plus;
-chmod a+x ./$APP-plus
+mv ./tmp/*.AppImage ./$APP;
+chmod a+x ./$APP
 
 rm -R -f ./tmp
 
