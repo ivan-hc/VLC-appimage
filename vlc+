@@ -116,7 +116,7 @@ mv ./AppRun ./$APP-plus/$APP.AppDir
 #cp ./$APP-plus/$APP.AppDir/usr/share/applications/* ./$APP-plus/$APP.AppDir/ 2>/dev/null
 
 # ...EXPORT THE APPDIR TO AN APPIMAGE!
-ARCH=x86_64 ./appimagetool -n ./$APP-plus/$APP.AppDir;
+ARCH=x86_64 ./appimagetool -n ./$APP/$APP.AppDir;
 underscore=_
 mkdir version
 mv ./$APP-plus/$APP$underscore*.deb ./version/
