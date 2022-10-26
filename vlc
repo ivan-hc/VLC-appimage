@@ -42,6 +42,8 @@ ingredients:
     - vlc-plugin-video-output
     - x264
     - x265
+    - libvpx7
+    - gstreamer1.0-plugins-good
     - libmatroska7
     - libplacebo192
     - libplacebo4" >> recipe.yml;
