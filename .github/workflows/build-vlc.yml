@@ -6,8 +6,7 @@ concurrency:
 on:
   schedule:
     - cron: "0 14 * * 0"
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
