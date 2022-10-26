@@ -53,6 +53,7 @@ ingredients:
     - x264
     - x265
     - libvpx7
+    - gstreamer1.0-libav
     - gstreamer1.0-plugins-good
     - libmatroska7
     - libplacebo192
