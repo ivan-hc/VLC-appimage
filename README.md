@@ -4,6 +4,7 @@ AppImage for VLC Video and Media Player for GLIBC 2.27 (tested on Ubuntu 18.04 a
 This version is only a sample and needs to be improved due to some recent [H264 compatibility issues](https://github.com/ivan-hc/VLC-appimage/issues/3).
 
 # How can you help
+Any fix can be applied by using appropriate commands into the [AppRun](https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/AppRun) script. To test your changes:
 1. download the AppImage from https://github.com/ivan-hc/VLC-appimage/releases/tag/continuous
 2. now you have to made the downloaded AppImage "executable":
 
