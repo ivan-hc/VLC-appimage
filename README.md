@@ -11,7 +11,7 @@ This version is only a sample and needs to be improved due to some recent [H264 
 3. extract the content of the AppImage:
 
        ./VLC_media_player-$VERSION-x86_64.AppImage --appimage-extract
-4. edit the AppRun with your favourite text editor
+4. edit the [AppRun](https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/AppRun) with your favourite text editor
 5. to test your improvements, just run the AppRun script:
 
        ./AppRun
