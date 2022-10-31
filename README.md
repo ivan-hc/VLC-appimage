@@ -16,22 +16,4 @@ Any fix can be applied by using appropriate commands into the [AppRun](https://r
 5. to test your improvements, just run the AppRun script:
 
        ./AppRun
-6. create a fork for this repository and add your improvements to both the scripts, ie [vlc](https://github.com/ivan-hc/VLC-appimage/blob/main/vlc) and [vlc+](https://github.com/ivan-hc/VLC-appimage/blob/main/vlc+) (the part related to the AppRun's creation is respectivelly at lines 77 and 87).
-# How to integrate VLC AppImage into the system
-### Installation
-To download and install the standard version from AM Application Manager:
-
-    wget https://raw.githubusercontent.com/ivan-hc/AM-Application-Manager/main/programs/x86_64/vlc
-    chmod a+x ./vlc
-    sudo ./vlc
-To download and install a version that includes more plugins (ie vlc-plugin-access-extra, vlc-plugin-fluidsynth, vlc-plugin-jack, vlc-plugin-notify, vlc-plugin-samba, vlc-plugin-skins2, vlc-plugin-svg, vlc-plugin-video-splitter and vlc-plugin-visualization):
-
-    wget https://raw.githubusercontent.com/ivan-hc/AM-Application-Manager/main/programs/x86_64/vlc+
-    chmod a+x ./vlc+
-    sudo ./vlc+
-### Update
-
-    /opt/vlc/AM-updater
-### Uninstall
-
-    sudo /opt/vlc/remove
+6. create a fork for this repository and add your improvements to the [AppRun](https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/AppRun) script.
