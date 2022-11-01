@@ -3,7 +3,7 @@ HERE="$(dirname "$(readlink -f "$0")")"
 export UNION_PRELOAD=$HERE
 export LD_PRELOAD=$HERE/libunionpreload.so
 export PATH=$HERE/usr/bin/:$HERE/usr/sbin/:$HERE/usr/games/:$HERE/bin/:$HERE/opt/vlc/:$HERE/sbin/:$PATH
-export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:$HERE/usr/lib/:$HERE/usr/lib/x86_64-linux-gnu/:$HERE/lib/:$HERE/lib/x86_64-linux-gnu/:$HERE/usr/lib/x86_64-linux-gnu/vlc/:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/lib/:/usr/lib/x86_64-linux-gnu/:$HERE/usr/lib/:$HERE/usr/lib/x86_64-linux-gnu/:$HERE/lib/:$HERE/lib/x86_64-linux-gnu/:$HERE/usr/lib/x86_64-linux-gnu/vlc/:$LD_LIBRARY_PATH
 export QT_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins/:$HERE/usr/lib/x86_64-linux-gnu/qt5/plugins/:$QT_PLUGIN_PATH
 export XDG_DATA_DIRS=$HERE/usr/share/:$XDG_DATA_DIRS
 exec $HERE/usr/bin/vlc "$@"
