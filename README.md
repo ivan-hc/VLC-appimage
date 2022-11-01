@@ -4,9 +4,9 @@ AppImage for VLC Video and Media Player for GLIBC 2.27 (tested on Ubuntu 18.04 a
 This repository provides two scripts for the automatic workflow, two AppImages (with or without plugins) ready for use and the AppRun of the AppImage.
 
 # Requirements
-This AppImage requires some packages installed on the host, or at least on Debian-based systems:
-- `libqt5svg5` (this is named `qt5-svg` on Arch Linux and derivatives, Solus and Void)
-- `ffmpeg` (for h264 conversion #3 )
+This AppImage requires some packages installed on the host:
+- `libqt5svg5` (on Debian and derivatives) or `qt5-svg` (on Arch Linux and derivatives, Solus and Void) or `qt5-qtsvg` (on Fedora and CentOS)
+- `ffmpeg` (this is needed for h264 conversion #3 )
 
 # How can you improve this AppImage
 Any fix can be applied by using appropriate commands into the [AppRun](https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/AppRun) script. To test your changes:
