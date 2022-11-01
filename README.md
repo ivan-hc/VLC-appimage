@@ -1,9 +1,14 @@
 # VLC-x86_64.AppImage
 AppImage for VLC Video and Media Player for GLIBC 2.27 (tested on Ubuntu 18.04 and Debian Testing/Unstable).
 
-This version is only a sample and needs to be improved due to some recent [H264 compatibility issues](https://github.com/ivan-hc/VLC-appimage/issues/3).
+This repository provides two scripts for the automatic workflow, two AppImages (with or without plugins) ready for use and the AppRun of the AppImage.
 
-# How can you help
+# Requirements
+This AppImage requires some packages installed on the host:
+- `libqt5svg5` (on Debian-based distributions) or `qt5-svg` (on Arch Linux and derivatives, Solus and Void)
+- `ffmpeg` (for h264 conversion #3 )
+
+# How can you improve this AppImage
 Any fix can be applied by using appropriate commands into the [AppRun](https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/AppRun) script. To test your changes:
 1. download the AppImage from https://github.com/ivan-hc/VLC-appimage/releases/tag/continuous
 2. now you have to made the downloaded AppImage "executable":
