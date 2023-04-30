@@ -26,6 +26,23 @@ Any fix can be applied by using appropriate commands into the [AppRun](https://r
        DL_DEBUG=libs ./AppRun
 6. create a fork for this repository and add your improvements to the [AppRun](https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/AppRun) script.
 
+# How to integrate VLC AppImage into the system
+The easier way is to install "AM" on your PC, see [ivan-hc/AM-application-manager](https://github.com/ivan-hc/AM-application-manager) for more.
+
+Alternatively, you can install it this way:
+
+    wget https://raw.githubusercontent.com/ivan-hc/AM-Application-Manager/main/programs/x86_64/vlc
+    chmod a+x ./vlc
+    sudo ./vlc
+The AppImage will be installed in /opt/vlc as `vlc`, near other files.
+### Update
+
+    /opt/vlc/AM-updater
+### Uninstall
+
+    sudo /opt/vlc/remove
+
+------------------------------------
 # About Rob Savoury's PPA 
 SITE: https://launchpad.net/~savoury1
 
