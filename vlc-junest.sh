@@ -114,6 +114,8 @@ sed -i 's/ln/#ln/g' ./$APP.AppDir/.local/share/junest/lib/core/wrappers.sh
 # REMOVE SOME BLOATWARES
 find ./$APP.AppDir/.junest/usr/share/doc/* -not -iname "*$BIN*" -a -not -name "." -delete #REMOVE ALL DOCUMENTATION NOT RELATED TO THE APP
 find ./$APP.AppDir/.junest/usr/share/locale/*/*/* -not -iname "*$BIN*" -a -not -name "." -delete #REMOVE ALL ADDITIONAL LOCALE FILES
+rm -R -f ./$APP.AppDir/*$APP-*
+rm -R -f ./$APP.AppDir/*x*
 rm -R -f ./$APP.AppDir/.junest/etc/makepkg.conf
 rm -R -f ./$APP.AppDir/.junest/etc/pacman.conf
 rm -R -f ./$APP.AppDir/.junest/usr/bin/[
