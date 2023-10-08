@@ -8,11 +8,7 @@ DEPENDENCES="zvbi pipewire-jack libdvdread libbluray"
 #COMPILERS="gcc"
 
 # ADD A VERSION, THIS IS NEEDED FOR THE NAME OF THE FINEL APPIMAGE, IF NOT AVAILABLE ON THE REPO, THE VALUE COME FROM AUR, AND VICE VERSA
-for REPO in { "core" "extra" "community" "multilib" }; do
-echo "$(wget -q https://archlinux.org/packages/$REPO/x86_64/$APP/flag/ -O - | grep $APP | grep details | head -1 | grep -o -P '(?<=/a> ).*(?= )' | grep -o '^\S*')" >> version
-done
-VERSION=$(cat ./version | grep -w -v "" | head -1)
-VERSIONAUR=$(wget -q https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=$APP -O - | grep pkgver | head -1 | cut -c 8-)
+VERSION=$(wget -q https://archlinux.org/packages/extra/x86_64/vlc/flag/ -O - | grep title | head -1 | sed 's/ //g' | grep -o -P '(?<=vlc).*(?=x86)' | sed 's/(//g')
 
 # THIS WILL DO ALL WORK INTO THE CURRENT DIRECTORY
 HOME="$(dirname "$(readlink -f $0)")" 
@@ -1289,4 +1285,4 @@ mkdir -p ./$APP.AppDir/.junest/media
 
 # CREATE THE APPIMAGE
 ARCH=x86_64 ./appimagetool -n ./$APP.AppDir
-mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION""$VERSIONAUR"-x86_64.AppImage
+mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-x86_64.AppImage
