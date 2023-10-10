@@ -4,6 +4,9 @@ This repository provides AppImages of VLC built from PPAs (legacy) and the stabl
 - ArchImage https://github.com/ivan-hc/ArchImage
 
 This repository also provides installation scripts to build the AppImage from PPA and JuNest.
+
+*NOTE: the 32-bit version for the old i386 architectures is available at [ivan-hc/32-bit-AppImage-packages-database](https://github.com/ivan-hc/32-bit-AppImage-packages-database), download it from [here](https://github.com/ivan-hc/32-bit-AppImage-packages-database/releases/tag/vlc).*
+
 # How to buid the "ArchImage" by yourself
 
     mkdir tmp
