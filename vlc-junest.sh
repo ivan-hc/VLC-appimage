@@ -10,6 +10,11 @@ DEPENDENCES="zvbi pipewire-jack libdvdread libbluray"
 # ADD A VERSION, THIS IS NEEDED FOR THE NAME OF THE FINEL APPIMAGE, IF NOT AVAILABLE ON THE REPO, THE VALUE COME FROM AUR, AND VICE VERSA
 VERSION=$(wget -q https://archlinux.org/packages/extra/x86_64/vlc/flag/ -O - | grep title | head -1 | sed 's/ //g' | grep -o -P '(?<=vlc).*(?=x86)' | sed 's/(//g')
 
+# CREATE THE APPDIR (DON'T TOUCH THIS)...
+wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
+chmod a+x appimagetool
+mkdir $APP.AppDir
+
 # ENTER THE APPDIR
 cd $APP.AppDir
 
