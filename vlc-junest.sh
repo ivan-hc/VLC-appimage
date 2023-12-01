@@ -3,7 +3,7 @@
 # NAME OF THE APP BY REPLACING "SAMPLE"
 APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
-DEPENDENCES="zvbi pipewire-jack libdvdread libbluray libxpresent ytfzf yt-dlp bind nss-mdns"
+DEPENDENCES="zvbi pipewire-jack libdvdread libbluray ytfzf yt-dlp"
 #BASICSTUFF="binutils gzip"
 #COMPILERS="gcc"
 
@@ -159,7 +159,7 @@ mkdir -p ./junest-backups/usr/share
 # STEP 2, FUNCTION TO SAVE THE BINARIES IN /usr/bin THAT ARE NEEDED TO MADE JUNEST WORK, PLUS THE MAIN BINARY/BINARIES OF THE APP
 # IF YOU NEED TO SAVE MORE BINARIES, LIST THEM IN THE "BINSAVED" VARIABLE. COMMENT THE LINE "_savebins" IF YOU ARE NOT SURE.
 _savebins(){
-	BINSAVED="bind drm ffmpef ffplay nss yt"
+	BINSAVED="drm ffmpef ffplay yt"
 	mkdir save
 	mv ./$APP.AppDir/.junest/usr/bin/*$BIN* ./save/
 	mv ./$APP.AppDir/.junest/usr/bin/bash ./save/
@@ -188,7 +188,7 @@ _binlibs(){
 	mv ./$APP.AppDir/.junest/usr/lib/*$BIN* ./save/
 	mv ./$APP.AppDir/.junest/usr/lib/libdw* ./save/
 	mv ./$APP.AppDir/.junest/usr/lib/libelf* ./save/
-	SHARESAVED="icons metadata pipewire qt solid ffmpeg metainfo ytfzf" # Enter here keywords or file/folder names to save in /usr/lib. By default, the names of the folders that you will save in /usr/share are selected also here.
+	SHARESAVED="metadata pipewire qt solid ytfzf" # Enter here keywords or file/folder names to save in /usr/lib. By default, the names of the folders that you will save in /usr/share are selected also here.
 	for arg in $SHARESAVED; do
 		for var in $arg; do
  			mv ./$APP.AppDir/.junest/usr/lib/*"$arg"* ./save/
@@ -272,7 +272,7 @@ rmdir save
 # STEP 4, SAVE ONLY SOME DIRECTORIES CONTAINED IN /usr/share
 # IF YOU NEED TO SAVE MORE FOLDERS, LIST THEM IN THE "SHARESAVED" VARIABLE. COMMENT THE LINE "_saveshare" IF YOU ARE NOT SURE.
 _saveshare(){
-	SHARESAVED="icons metadata pipewire qt solid ffmpeg metainfo ytfzf"
+	SHARESAVED="metadata pipewire qt solid ytfzf"
 	mkdir save
 	mv ./$APP.AppDir/.junest/usr/share/*$APP* ./save/
  	mv ./$APP.AppDir/.junest/usr/share/*$BIN* ./save/
@@ -295,6 +295,8 @@ _saveshare(){
 _saveshare
 
 # ADDITIONAL REMOVALS
+mv ./$APP.AppDir/.junest/usr/lib/libgo.* ./junest-backups/usr/lib/
+mv ./$APP.AppDir/.junest/usr/lib/libLLVM-* ./junest-backups/usr/lib/
 
 # REMOVE THE INBUILT HOME
 rm -R -f ./$APP.AppDir/.junest/home
@@ -305,4 +307,4 @@ mkdir -p ./$APP.AppDir/.junest/media
 
 # CREATE THE APPIMAGE
 ARCH=x86_64 ./appimagetool -n ./$APP.AppDir
-mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage2.1-2-x86_64.AppImage
+mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage2.1-2.1-x86_64.AppImage
