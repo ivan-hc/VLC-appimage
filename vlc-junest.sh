@@ -173,10 +173,10 @@ _savebins(){
 	done
 	mv ./$APP.AppDir/.junest/usr/bin/* ./junest-backups/usr/bin/
 	mv ./save/* ./$APP.AppDir/.junest/usr/bin/
- 	mv ./base/usr/bin/* ./$APP.AppDir/.junest/usr/bin/
+ 	rsync -av ./base/usr/bin/* ./$APP.AppDir/.junest/usr/bin/
 	rmdir save
 }
-_savebins
+_savebins 2> /dev/null
 
 # STEP 3, MOVE UNNECESSARY LIBRARIES TO A BACKUP FOLDER (FOR TESTING PURPOSES)
 mkdir save
@@ -250,22 +250,22 @@ _liblibs(){
 _mvlibs(){
 	mv ./$APP.AppDir/.junest/usr/lib/* ./junest-backups/usr/lib/
 	mv ./save/* ./$APP.AppDir/.junest/usr/lib/
- 	mv ./base/usr/lib/* ./$APP.AppDir/.junest/usr/lib/
+ 	rsync -av ./base/usr/lib/* ./$APP.AppDir/.junest/usr/lib/
 }
 
-_binlibs
+_binlibs 2> /dev/null
 
-_include_swrast_dri
+_include_swrast_dri 2> /dev/null
 
-#_libkeywords
+#_libkeywords 2> /dev/null
 
-_liblibs
-_liblibs
-_liblibs
-_liblibs
-_liblibs
+_liblibs 2> /dev/null
+_liblibs 2> /dev/null
+_liblibs 2> /dev/null
+_liblibs 2> /dev/null
+_liblibs 2> /dev/null
 
-_mvlibs
+_mvlibs 2> /dev/null
 
 rmdir save
 
@@ -289,13 +289,14 @@ _saveshare(){
 	done
 	mv ./$APP.AppDir/.junest/usr/share/* ./junest-backups/usr/share/
 	mv ./save/* ./$APP.AppDir/.junest/usr/share/
- 	mv ./base/usr/share/* ./$APP.AppDir/.junest/usr/share/
+ 	rsync -av ./base/usr/share/* ./$APP.AppDir/.junest/usr/share/
 	rmdir save
 }
-_saveshare
+_saveshare 2> /dev/null
 
 # ADDITIONAL REMOVALS
-mv ./$APP.AppDir/.junest/usr/lib/libLLVM-* ./junest-backups/usr/lib/
+mv ./$APP.AppDir/.junest/usr/lib/libLLVM-* ./junest-backups/usr/lib/ #INCLUDED IN THE COMPILATION PHASE, CAN SOMETIMES BE EXCLUDED FOR DAILY USE
+rm -R -f ./$APP.AppDir/.junest/usr/lib/python*/__pycache__/* #IF PYTHON IS INSTALLED, REMOVING THIS DIRECTORY CAN SAVE SEVERAL MEGABYTES
 
 # REMOVE THE INBUILT HOME
 rm -R -f ./$APP.AppDir/.junest/home
@@ -306,4 +307,4 @@ mkdir -p ./$APP.AppDir/.junest/media
 
 # CREATE THE APPIMAGE
 ARCH=x86_64 ./appimagetool -n ./$APP.AppDir
-mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage2.1-3-x86_64.AppImage
+mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage2.1-4-x86_64.AppImage
