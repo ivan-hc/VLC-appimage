@@ -23,9 +23,7 @@ jobs:
         ./vlc-junest.sh
         mkdir dist
         mv *AppImage dist/
-    - uses: gautamkrishnar/keepalive-workflow@v1
-      with:
-        gh_token: ${{ secrets.GH_TOKEN }}
+
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
