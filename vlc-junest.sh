@@ -7,9 +7,6 @@ DEPENDENCES="ca-certificates libbluray libdvdread zvbi"
 #BASICSTUFF="binutils gzip"
 #COMPILERS="base-devel"
 
-# ADD A VERSION, THIS IS NEEDED FOR THE NAME OF THE FINEL APPIMAGE, IF NOT AVAILABLE ON THE REPO, THE VALUE COME FROM AUR, AND VICE VERSA
-VERSION=$(wget -q https://archlinux.org/packages/extra/x86_64/vlc/flag/ -O - | grep title | head -1 | sed 's/ //g' | grep -o -P '(?<=vlc).*(?=x86)' | sed 's/(//g')
-
 # CREATE THE APPDIR (DON'T TOUCH THIS)...
 wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
 chmod a+x appimagetool
@@ -117,7 +114,7 @@ cd ..
 # EXTRACT PACKAGE CONTENT
 mkdir base
 tar fx $(find ./$APP.AppDir -name $APP-[0-9]*zst | head -1) -C ./base/
-
+VERSION=$(cat ./base/.PKGINFO | grep pkgver | cut -c 10-)
 mkdir deps
 
 ARGS=$(echo "$DEPENDENCES" | tr " " "\n")
@@ -339,4 +336,4 @@ mkdir -p ./$APP.AppDir/.junest/run/user
 
 # CREATE THE APPIMAGE
 ARCH=x86_64 ./appimagetool -n ./$APP.AppDir
-mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION""$VERSIONAUR"-archimage3-x86_64.AppImage
+mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage3-x86_64.AppImage
