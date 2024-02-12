@@ -3,9 +3,9 @@
 # NAME OF THE APP BY REPLACING "SAMPLE"
 APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
-DEPENDENCES="ca-certificates libbluray libdvdread zvbi"
-#BASICSTUFF="binutils gzip"
-#COMPILERS="base-devel"
+DEPENDENCES="ca-certificates libaacs libbluray libbdplus libdvdread zvbi"
+BASICSTUFF="binutils gzip"
+COMPILERS="base-devel"
 
 # CREATE THE APPDIR (DON'T TOUCH THIS)...
 wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
@@ -56,8 +56,11 @@ sed -i 's/Required DatabaseOptional/Never/g' ./.junest/etc/pacman.conf
 
 # INSTALL THE PROGRAM USING YAY
 ./.local/share/junest/bin/junest -- yay -Syy
-#./.local/share/junest/bin/junest -- gpg --keyserver keyserver.ubuntu.com --recv-key C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF # UNCOMMENT IF YOU USE THE AUR
+./.local/share/junest/bin/junest -- gpg --keyserver keyserver.ubuntu.com --recv-key C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF # UNCOMMENT IF YOU USE THE AUR
 ./.local/share/junest/bin/junest -- yay --noconfirm -S gnu-free-fonts $(echo "$BASICSTUFF $COMPILERS $DEPENDENCES $APP")
+
+# EXTRA: UPDATE VLC CACHE
+./.local/share/junest/bin/junest -- sudo /usr/lib/vlc/vlc-cache-gen /usr/lib/vlc/plugins/
 
 # SET THE LOCALE (DON'T TOUCH THIS)
 #sed "s/# /#>/g" ./.junest/etc/locale.gen | sed "s/#//g" | sed "s/>/#/g" >> ./locale.gen # UNCOMMENT TO ENABLE ALL THE LANGUAGES
@@ -177,7 +180,7 @@ rm -R -f ./$APP.AppDir/.junest/var/* #REMOVE ALL PACKAGES DOWNLOADED WITH THE PA
 
 BINSAVED="certificates SAVEBINSPLEASE" # Enter here keywords to find and save in /usr/bin
 SHARESAVED="certificates qt" # Enter here keywords or file/folder names to save in both /usr/share and /usr/lib
-LIBSAVED="pk p11 alsa jack pipewire pulse v4l" # Enter here keywords or file/folder names to save in /usr/lib
+LIBSAVED="pk p11 alsa jack libaacs libbluray libbdplus pipewire pulse v4l" # Enter here keywords or file/folder names to save in /usr/lib
 
 # STEP 1, CREATE A BACKUP FOLDER WHERE TO SAVE THE FILES TO BE DISCARDED (USEFUL FOR TESTING PURPOSES)
 mkdir -p ./junest-backups/usr/bin
@@ -323,7 +326,7 @@ rsync -av ./base/* ./$APP.AppDir/.junest/
 
 # RSYNC DEPENDENCES
 rm -R -f ./deps/.*
-#rsync -av ./deps/* ./$APP.AppDir/.junest/
+rsync -av ./deps/* ./$APP.AppDir/.junest/
 
 # ADDITIONAL REMOVALS
 mv ./$APP.AppDir/.junest/usr/lib/libLLVM-* ./junest-backups/usr/lib/ #INCLUDED IN THE COMPILATION PHASE, CAN SOMETIMES BE EXCLUDED FOR DAILY USE
@@ -342,4 +345,4 @@ mkdir -p ./$APP.AppDir/.junest/run/user
 
 # CREATE THE APPIMAGE
 ARCH=x86_64 ./appimagetool -n ./$APP.AppDir
-mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage3.2-x86_64.AppImage
+mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage3.2-1-x86_64.AppImage
