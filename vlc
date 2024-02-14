@@ -82,7 +82,6 @@ chmod a+x ./$APP/$APP.AppDir/AppRun
 # ...EXPORT THE APPDIR TO AN APPIMAGE!
 ARCH=x86_64 ./appimagetool -n ./$APP/$APP.AppDir;
 cd ..;
-mv ./tmp/*.AppImage ./$APP;
-chmod a+x ./$APP
+mv ./tmp/*.AppImage ./
 
 rm -R -f ./tmp
