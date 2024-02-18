@@ -1,9 +1,9 @@
-This repository provides AppImages of VLC built from PPAs (legacy) and the stable version based on JuNest, the lightweight Arch Linux based distro that runs, without root privileges, on top of any other Linux distro. Learn more about JuNest and the ArchImage project:
+This repository provides AppImages of VLC built from PPAs (legacy) and the Stable and the GIT versions based on JuNest, the lightweight Arch Linux based distro that runs, without root privileges, on top of any other Linux distro. Learn more about JuNest and the ArchImage project:
 
 - JuNest https://github.com/fsquillace/junest
 - ArchImage https://github.com/ivan-hc/ArchImage
 
-This repository also provides installation scripts to build the AppImage from PPA and JuNest.
+This repository also provides installation scripts to build the AppImages from PPA and JuNest.
 
 *NOTE: the 32-bit version for the old i386 architectures is available at [ivan-hc/32-bit-AppImage-packages-database](https://github.com/ivan-hc/32-bit-AppImage-packages-database), download it from [here](https://github.com/ivan-hc/32-bit-AppImage-packages-database/releases/tag/vlc).*
 
