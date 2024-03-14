@@ -3,7 +3,7 @@
 # NAME OF THE APP BY REPLACING "SAMPLE"
 APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
-DEPENDENCES="jre8-openjdk ca-certificates libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread libvdpau libxtst libxi zvbi"
+DEPENDENCES="jre8-openjdk ca-certificates libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread libvdpau libxtst libxi vlc-bittorrent zvbi"
 BASICSTUFF="binutils gzip"
 COMPILERS="base-devel"
 
