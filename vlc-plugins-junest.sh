@@ -75,7 +75,7 @@ sed -i 's/LANG=${LANG:-C}/LANG=$LANG/g' ./.junest/etc/profile.d/locale.sh
 
 # ...ADD THE ICON AND THE DESKTOP FILE AT THE ROOT OF THE APPDIR...
 rm -R -f ./*.desktop
-LAUNCHER=$(grep -iRl $BIN ./.junest/usr/share/applications/* | grep ".desktop" | head -1)
+LAUNCHER=$(grep -iRl $BIN ./.junest/usr/share/applications/* | grep "vlc.desktop" | head -1)
 cp -r "$LAUNCHER" ./
 ICON=$(cat $LAUNCHER | grep "Icon=" | cut -c 6-)
 cp -r ./.junest/usr/share/icons/hicolor/22x22/apps/*$ICON* ./ 2>/dev/null
