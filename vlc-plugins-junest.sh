@@ -4,7 +4,7 @@
 APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
 DEPENDENCES="jre8-openjdk ca-certificates libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread libvdpau libxtst libxi vlc-bittorrent zvbi"
-BASICSTUFF="binutils gzip"
+BASICSTUFF="binutils debugedit gzip"
 COMPILERS="base-devel"
 
 # CREATE THE APPDIR (DON'T TOUCH THIS)...
@@ -57,7 +57,8 @@ sed -i 's/Required DatabaseOptional/Never/g' ./.junest/etc/pacman.conf
 # INSTALL THE PROGRAM USING YAY
 ./.local/share/junest/bin/junest -- yay -Syy
 ./.local/share/junest/bin/junest -- gpg --keyserver keyserver.ubuntu.com --recv-key C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF # UNCOMMENT IF YOU USE THE AUR
-./.local/share/junest/bin/junest -- yay --noconfirm -S gnu-free-fonts $(echo "$BASICSTUFF $COMPILERS $DEPENDENCES $APP")
+./.local/share/junest/bin/junest -- yay --noconfirm -S gnu-free-fonts $(echo "$BASICSTUFF $COMPILERS")
+./.local/share/junest/bin/junest -- yay --noconfirm -S gnu-free-fonts $(echo "$DEPENDENCES $APP")
 
 # EXTRA: UPDATE VLC CACHE
 ./.local/share/junest/bin/junest -- sudo /usr/lib/vlc/vlc-cache-gen /usr/lib/vlc/plugins/
