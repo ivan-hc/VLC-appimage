@@ -8,7 +8,7 @@ BASICSTUFF="binutils debugedit gzip"
 COMPILERS="base-devel"
 
 # CREATE THE APPDIR (DON'T TOUCH THIS)...
-wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
+wget -q $(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | grep -v zsync | grep -i continuous | grep -i appimagetool | grep -i x86_64 | grep browser_download_url | cut -d '"' -f 4 | head -1) -O appimagetool
 chmod a+x appimagetool
 mkdir $APP.AppDir
 
@@ -346,5 +346,5 @@ mkdir -p ./$APP.AppDir/.junest/usr/share/themes
 mkdir -p ./$APP.AppDir/.junest/run/user
 
 # CREATE THE APPIMAGE
-ARCH=x86_64 ./appimagetool -n ./$APP.AppDir
-mv ./*AppImage ./VLC-media-player-GIT_"$VERSION"-archimage3.2-x86_64.AppImage
+ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP.AppDir
+mv ./*AppImage ./VLC-media-player-GIT_"$VERSION"-type3-archimage3.2-x86_64.AppImage
