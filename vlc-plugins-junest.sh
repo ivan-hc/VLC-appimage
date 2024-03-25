@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # NAME OF THE APP BY REPLACING "SAMPLE"
 APP=vlc
@@ -8,60 +8,85 @@ BASICSTUFF="binutils debugedit gzip"
 COMPILERS="base-devel"
 
 # CREATE THE APPDIR (DON'T TOUCH THIS)...
-wget -q $(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | grep -v zsync | grep -i continuous | grep -i appimagetool | grep -i x86_64 | grep browser_download_url | cut -d '"' -f 4 | head -1) -O appimagetool
-chmod a+x appimagetool
-mkdir $APP.AppDir
+if ! test -f ./appimagetool; then
+	wget -q $(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | grep -v zsync | grep -i continuous | grep -i appimagetool | grep -i x86_64 | grep browser_download_url | cut -d '"' -f 4 | head -1) -O appimagetool
+	chmod a+x appimagetool
+fi
+mkdir -p $APP.AppDir
 
 # ENTER THE APPDIR
 cd $APP.AppDir
 
 # SET APPDIR AS A TEMPORARY $HOME DIRECTORY, THIS WILL DO ALL WORK INTO THE APPDIR
-HOME="$(dirname "$(readlink -f $0)")" 
+HOME="$(dirname "$(readlink -f $0)")"
 
 # DOWNLOAD AND INSTALL JUNEST (DON'T TOUCH THIS)
-git clone https://github.com/fsquillace/junest.git ~/.local/share/junest
-wget -q --show-progress https://github.com/ivan-hc/junest/releases/download/continuous/junest-x86_64.tar.gz
-./.local/share/junest/bin/junest setup -i junest-x86_64.tar.gz
-rm -f junest-x86_64.tar.gz
+if ! test -d "$HOME/.local/share/junest"; then
+	git clone https://github.com/fsquillace/junest.git ./.local/share/junest
+	wget -q --show-progress https://github.com/ivan-hc/junest/releases/download/continuous/junest-x86_64.tar.gz
+	./.local/share/junest/bin/junest setup -i junest-x86_64.tar.gz
+	rm -f junest-x86_64.tar.gz
 
-# ENABLE MULTILIB (optional)
-echo "
-[multilib]
-Include = /etc/pacman.d/mirrorlist" >> ./.junest/etc/pacman.conf
+	# ENABLE MULTILIB (optional)
+	echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> ./.junest/etc/pacman.conf
 
-# ENABLE CHAOTIC-AUR
-###./.local/share/junest/bin/junest -- sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-###./.local/share/junest/bin/junest -- sudo pacman-key --lsign-key 3056513887B78AEB
-###./.local/share/junest/bin/junest -- sudo pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-###echo "
-###[chaotic-aur]
-###Include = /etc/pacman.d/chaotic-mirrorlist" >> ./.junest/etc/pacman.conf
+	# ENABLE LIBSELINUX FROM THIRD PARTY REPOSITORY
+	if [[ $DEPENDENCES = *"libselinux"* ]]; then
+		echo -e "\n[selinux]\nServer = https://github.com/archlinuxhardened/selinux/releases/download/ArchLinux-SELinux\nSigLevel = Never" >> ./.junest/etc/pacman.conf
+	fi
 
-# CUSTOM MIRRORLIST, THIS SHOULD SPEEDUP THE INSTALLATION OF THE PACKAGES IN PACMAN (COMMENT EVERYTHING TO USE THE DEFAULT MIRROR)
-_custom_mirrorlist(){
-	#COUNTRY=$(curl -i ipinfo.io | grep country | cut -c 15- | cut -c -2)
-	rm -R ./.junest/etc/pacman.d/mirrorlist
-	wget -q https://archlinux.org/mirrorlist/all/ -O - | awk NR==2 RS= | sed 's/#Server/Server/g' >> ./.junest/etc/pacman.d/mirrorlist # ENABLES WORLDWIDE MIRRORS
-	#wget -q https://archlinux.org/mirrorlist/?country="$(echo $COUNTRY)" -O - | sed 's/#Server/Server/g' >> ./.junest/etc/pacman.d/mirrorlist # ENABLES MIRRORS OF YOUR COUNTY
-}
-_custom_mirrorlist
+	# ENABLE CHAOTIC-AUR
+	function _enable_chaoticaur(){
+		./.local/share/junest/bin/junest -- sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+		./.local/share/junest/bin/junest -- sudo pacman-key --lsign-key 3056513887B78AEB
+		./.local/share/junest/bin/junest -- sudo pacman-key --populate chaotic
+		./.local/share/junest/bin/junest -- sudo pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+		echo -e "\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> ./.junest/etc/pacman.conf
+	}
+	###_enable_chaoticaur
 
-# BYPASS SIGNATURE CHECK LEVEL
-sed -i 's/#SigLevel/SigLevel/g' ./.junest/etc/pacman.conf
-sed -i 's/Required DatabaseOptional/Never/g' ./.junest/etc/pacman.conf
+	# CUSTOM MIRRORLIST, THIS SHOULD SPEEDUP THE INSTALLATION OF THE PACKAGES IN PACMAN (COMMENT EVERYTHING TO USE THE DEFAULT MIRROR)
+	function _custom_mirrorlist(){
+		#COUNTRY=$(curl -i ipinfo.io | grep country | cut -c 15- | cut -c -2)
+		rm -R ./.junest/etc/pacman.d/mirrorlist
+		wget -q https://archlinux.org/mirrorlist/all/ -O - | awk NR==2 RS= | sed 's/#Server/Server/g' >> ./.junest/etc/pacman.d/mirrorlist # ENABLES WORLDWIDE MIRRORS
+		#wget -q https://archlinux.org/mirrorlist/?country="$(echo $COUNTRY)" -O - | sed 's/#Server/Server/g' >> ./.junest/etc/pacman.d/mirrorlist # ENABLES MIRRORS OF YOUR COUNTY
+	}
+	_custom_mirrorlist
 
-# UPDATE ARCH LINUX IN JUNEST
-./.local/share/junest/bin/junest -- sudo pacman -Syy
-./.local/share/junest/bin/junest -- sudo pacman --noconfirm -Syu
+	# BYPASS SIGNATURE CHECK LEVEL
+	sed -i 's/#SigLevel/SigLevel/g' ./.junest/etc/pacman.conf
+	sed -i 's/Required DatabaseOptional/Never/g' ./.junest/etc/pacman.conf
+
+	# UPDATE ARCH LINUX IN JUNEST
+	./.local/share/junest/bin/junest -- sudo pacman -Syy
+	./.local/share/junest/bin/junest -- sudo pacman --noconfirm -Syu
+else
+	cd ..
+	rsync -av ./junest-backups/* ./$APP.AppDir/.junest/
+	rsync -av ./stock-cache/* ./$APP.AppDir/.cache/
+	rsync -av ./stock-local/* ./$APP.AppDir/.local/
+	cd ./$APP.AppDir
+fi
 
 # INSTALL THE PROGRAM USING YAY
 ./.local/share/junest/bin/junest -- yay -Syy
 ./.local/share/junest/bin/junest -- gpg --keyserver keyserver.ubuntu.com --recv-key C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF # UNCOMMENT IF YOU USE THE AUR
 ./.local/share/junest/bin/junest -- yay --noconfirm -S gnu-free-fonts $(echo "$BASICSTUFF $COMPILERS")
-./.local/share/junest/bin/junest -- yay --noconfirm -S gnu-free-fonts $(echo "$DEPENDENCES $APP")
+./.local/share/junest/bin/junest -- yay --noconfirm -S $(echo "$DEPENDENCES $APP")
 
 # EXTRA: UPDATE VLC CACHE
 ./.local/share/junest/bin/junest -- sudo /usr/lib/vlc/vlc-cache-gen /usr/lib/vlc/plugins/
+
+# DO A BACKUP OF THE CURRENT STATE OF JUNEST
+cd ..
+mkdir -p ./junest-backups
+mkdir -p ./stock-cache
+mkdir -p ./stock-local
+rsync -av --ignore-existing ./$APP.AppDir/.junest/* ./junest-backups/
+rsync -av --ignore-existing ./$APP.AppDir/.cache/* ./stock-cache/
+rsync -av --ignore-existing ./$APP.AppDir/.local/* ./stock-local/
+cd ./$APP.AppDir
 
 # SET THE LOCALE (DON'T TOUCH THIS)
 #sed "s/# /#>/g" ./.junest/etc/locale.gen | sed "s/#//g" | sed "s/>/#/g" >> ./locale.gen # UNCOMMENT TO ENABLE ALL THE LANGUAGES
@@ -107,6 +132,11 @@ if test -f /etc/resolv.conf; then
 	ETC_RESOLV=' --bind /etc/resolv.conf /etc/resolv.conf ' # NEEDED TO CONNECT THE INTERNET
 fi
 BINDS=" $MNT_MEDIA $ETC_RESOLV "
+
+if test -f $JUNEST_HOME/usr/lib/libselinux.so; then
+	export LD_LIBRARY_PATH=/lib/:/lib64/:/lib/x86_64-linux-gnu/:/usr/lib/:"${LD_LIBRARY_PATH}"
+fi
+
 EXEC=$(grep -e '^Exec=.*' "${HERE}"/*.desktop | head -n 1 | cut -d "=" -f 2- | sed -e 's|%.||g')
 $HERE/.local/share/junest/bin/junest -n -b "$BINDS" -- $EXEC "$@"
 EOF
@@ -123,53 +153,47 @@ sed -i 's/rm -f "$file"/test -f "$file"/g' ./.local/share/junest/lib/core/wrappe
 cd ..
 
 # EXTRACT PACKAGE CONTENT
-mkdir base
+mkdir -p base
+rm -R -f ./base/*
+
 tar fx $(find ./$APP.AppDir -name $APP-[0-9]*zst | head -1) -C ./base/
 VERSION=$(cat ./base/.PKGINFO | grep pkgver | cut -c 10- | sed 's@.*:@@')
-mkdir deps
+
+mkdir -p deps
+rm -R -f ./deps/*
 
 ARGS=$(echo "$DEPENDENCES" | tr " " "\n")
 for arg in $ARGS; do
-	for var in $arg; do
- 		tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
- 		cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps
-	done
+	tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
+ 	cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps
 done
 
 DEPS=$(cat ./base/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<")
 for arg in $DEPS; do
-	for var in "$arg"; do
- 		tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
- 		cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps
-	done
+	tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
+ 	cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps
 done
 
 DEPS2=$(cat ./depdeps | uniq)
 for arg in $DEPS2; do
-	for var in "$arg"; do
- 		tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
- 		cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps2
- 	done
+	tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
+ 	cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps2
 done
 
 DEPS3=$(cat ./depdeps2 | uniq)
 for arg in $DEPS3; do
-	for var in "$arg"; do
- 		tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
- 		cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps3
- 	done
+	tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
+ 	cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps3
 done
 
 DEPS4=$(cat ./depdeps3 | uniq)
 for arg in $DEPS4; do
-	for var in "$arg"; do
- 		tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
- 		cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps4
- 	done
+	tar fx $(find ./$APP.AppDir -name $arg-[0-9]*zst) -C ./deps/
+ 	cat ./deps/.PKGINFO | grep "depend = " | grep -v "makedepend = " | cut -c 10- | grep -v "=\|>\|<" > depdeps4
 done
 
 # REMOVE SOME BLOATWARES
-echo Y | rm -R .f ./$APP.AppDir/.cache/yay/*
+echo Y | rm -R -f ./$APP.AppDir/.cache/yay/*
 find ./$APP.AppDir/.junest/usr/share/doc/* -not -iname "*$BIN*" -a -not -name "." -delete #REMOVE ALL DOCUMENTATION NOT RELATED TO THE APP
 find ./$APP.AppDir/.junest/usr/share/locale/*/*/* -not -iname "*$BIN*" -a -not -name "." -delete #REMOVE ALL ADDITIONAL LOCALE FILES
 rm -R -f ./$APP.AppDir/.junest/etc/makepkg.conf
@@ -178,22 +202,14 @@ rm -R -f ./$APP.AppDir/.junest/usr/include #FILES RELATED TO THE COMPILER
 rm -R -f ./$APP.AppDir/.junest/usr/man #APPIMAGES ARE NOT MENT TO HAVE MAN COMMAND
 rm -R -f ./$APP.AppDir/.junest/var/* #REMOVE ALL PACKAGES DOWNLOADED WITH THE PACKAGE MANAGER
 
-# IN THE NEXT 4 STEPS WE WILL TRY TO LIGHTEN THE FINAL APPIMAGE PACKAGE
-# WE WILL MOVE EXCESS CONTENT TO BACKUP FOLDERS (STEP 1)
-# THE AFFECTED DIRECTORIES WILL BE /usr/bin (STEP 2), /usr/lib (STEP 3) AND /usr/share (STEP 4)
-
+# SAVE FILES USING KEYWORDS
 BINSAVED="certificates SAVEBINSPLEASE" # Enter here keywords to find and save in /usr/bin
 SHARESAVED="certificates qt java" # Enter here keywords or file/folder names to save in both /usr/share and /usr/lib
 LIBSAVED="pk p11 alsa jack libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread pipewire pulse v4l jvm libxtst libxi"
 
-# STEP 1, CREATE A BACKUP FOLDER WHERE TO SAVE THE FILES TO BE DISCARDED (USEFUL FOR TESTING PURPOSES)
-mkdir -p ./junest-backups/usr/bin
-mkdir -p ./junest-backups/usr/lib/dri
-mkdir -p ./junest-backups/usr/share
-
 # STEP 2, FUNCTION TO SAVE THE BINARIES IN /usr/bin THAT ARE NEEDED TO MADE JUNEST WORK, PLUS THE MAIN BINARY/BINARIES OF THE APP
 # IF YOU NEED TO SAVE MORE BINARIES, LIST THEM IN THE "BINSAVED" VARIABLE. COMMENT THE LINE "_savebins" IF YOU ARE NOT SURE.
-_savebins(){
+function _savebins(){
 	mkdir save
 	mv ./$APP.AppDir/.junest/usr/bin/*$BIN* ./save/
 	mv ./$APP.AppDir/.junest/usr/bin/bash ./save/
@@ -203,11 +219,9 @@ _savebins(){
  	mv ./$APP.AppDir/.junest/usr/bin/tr ./save/
    	mv ./$APP.AppDir/.junest/usr/bin/tty ./save/
 	for arg in $BINSAVED; do
-		for var in $arg; do
- 			mv ./$APP.AppDir/.junest/usr/bin/*"$arg"* ./save/
-		done
+		mv ./$APP.AppDir/.junest/usr/bin/*"$arg"* ./save/
 	done
-	mv ./$APP.AppDir/.junest/usr/bin/* ./junest-backups/usr/bin/
+	rm -R -f ./$APP.AppDir/.junest/usr/bin/*
 	mv ./save/* ./$APP.AppDir/.junest/usr/bin/
 	rmdir save
 }
@@ -216,7 +230,7 @@ _savebins 2> /dev/null
 # STEP 3, MOVE UNNECESSARY LIBRARIES TO A BACKUP FOLDER (FOR TESTING PURPOSES)
 mkdir save
 
-_binlibs(){
+function _binlibs(){
 	readelf -d ./$APP.AppDir/.junest/usr/bin/* | grep .so | sed 's:.* ::' | cut -c 2- | sed 's/\(^.*so\).*$/\1/' | uniq >> ./list
 	mv ./$APP.AppDir/.junest/usr/lib/ld-linux-x86-64.so* ./save/
 	mv ./$APP.AppDir/.junest/usr/lib/*$APP* ./save/
@@ -224,35 +238,29 @@ _binlibs(){
 	mv ./$APP.AppDir/.junest/usr/lib/libdw* ./save/
 	mv ./$APP.AppDir/.junest/usr/lib/libelf* ./save/
 	for arg in $SHARESAVED; do
-		for var in $arg; do
- 			mv ./$APP.AppDir/.junest/usr/lib/*"$arg"* ./save/
-		done
+		mv ./$APP.AppDir/.junest/usr/lib/*"$arg"* ./save/
 	done
 	ARGS=$(tail -n +2 ./list | sort -u | uniq)
 	for arg in $ARGS; do
-		for var in $arg; do
-			mv ./$APP.AppDir/.junest/usr/lib/$arg* ./save/
-			find ./$APP.AppDir/.junest/usr/lib/ -name $arg -exec cp -r --parents -t save/ {} +
-		done 
+		mv ./$APP.AppDir/.junest/usr/lib/$arg* ./save/
+		find ./$APP.AppDir/.junest/usr/lib/ -name $arg -exec cp -r --parents -t save/ {} +
 	done
 	rm -R -f $(find ./save/ | sort | grep ".AppDir" | head -1)
 	rm list
 }
 
-_include_swrast_dri(){
+function _include_swrast_dri(){
 	mkdir ./save/dri
 	mv ./$APP.AppDir/.junest/usr/lib/dri/swrast_dri.so ./save/dri/
 }
 
-_libkeywords(){
+function _libkeywords(){
 	for arg in $LIBSAVED; do
-		for var in $arg; do
- 			mv ./$APP.AppDir/.junest/usr/lib/*"$arg"* ./save/
-		done
+		mv ./$APP.AppDir/.junest/usr/lib/*"$arg"* ./save/
 	done
 }
 
-_liblibs(){
+function _liblibs(){
 	readelf -d ./save/* | grep .so | sed 's:.* ::' | cut -c 2- | sed 's/\(^.*so\).*$/\1/' | uniq >> ./list
 	readelf -d ./save/*/* | grep .so | sed 's:.* ::' | cut -c 2- | sed 's/\(^.*so\).*$/\1/' | uniq >> ./list
 	readelf -d ./save/*/*/* | grep .so | sed 's:.* ::' | cut -c 2- | sed 's/\(^.*so\).*$/\1/' | uniq >> ./list
@@ -270,18 +278,16 @@ _liblibs(){
 	readelf -d ./deps/*/*/*/*/* | grep .so | sed 's:.* ::' | cut -c 2- | sed 's/\(^.*so\).*$/\1/' | uniq >> ./list
 	ARGS=$(tail -n +2 ./list | sort -u | uniq)
 	for arg in $ARGS; do
-		for var in $arg; do
-			mv ./$APP.AppDir/.junest/usr/lib/$arg* ./save/
-			find ./$APP.AppDir/.junest/usr/lib/ -name $arg -exec cp -r --parents -t save/ {} +
-		done 
+		mv ./$APP.AppDir/.junest/usr/lib/$arg* ./save/
+		find ./$APP.AppDir/.junest/usr/lib/ -name $arg -exec cp -r --parents -t save/ {} +
 	done
 	rsync -av ./save/$APP.AppDir/.junest/usr/lib/* ./save/
  	rm -R -f $(find ./save/ | sort | grep ".AppDir" | head -1)
 	rm list
 }
 
-_mvlibs(){
-	mv ./$APP.AppDir/.junest/usr/lib/* ./junest-backups/usr/lib/
+function _mvlibs(){
+	rm -R -f ./$APP.AppDir/.junest/usr/lib/*
 	mv ./save/* ./$APP.AppDir/.junest/usr/lib/
 }
 
@@ -303,7 +309,7 @@ rmdir save
 
 # STEP 4, SAVE ONLY SOME DIRECTORIES CONTAINED IN /usr/share
 # IF YOU NEED TO SAVE MORE FOLDERS, LIST THEM IN THE "SHARESAVED" VARIABLE. COMMENT THE LINE "_saveshare" IF YOU ARE NOT SURE.
-_saveshare(){
+function _saveshare(){
 	mkdir save
 	mv ./$APP.AppDir/.junest/usr/share/*$APP* ./save/
  	mv ./$APP.AppDir/.junest/usr/share/*$BIN* ./save/
@@ -314,11 +320,9 @@ _saveshare(){
 	mv ./$APP.AppDir/.junest/usr/share/wayland ./save/
 	mv ./$APP.AppDir/.junest/usr/share/X11 ./save/
 	for arg in $SHARESAVED; do
-		for var in $arg; do
- 			mv ./$APP.AppDir/.junest/usr/share/*"$arg"* ./save/
-		done
+		mv ./$APP.AppDir/.junest/usr/share/*"$arg"* ./save/
 	done
-	mv ./$APP.AppDir/.junest/usr/share/* ./junest-backups/usr/share/
+	rm -R -f ./$APP.AppDir/.junest/usr/share/*
 	mv ./save/* ./$APP.AppDir/.junest/usr/share/
  	rmdir save
 }
@@ -333,7 +337,7 @@ rm -R -f ./deps/.*
 rsync -av ./deps/* ./$APP.AppDir/.junest/
 
 # ADDITIONAL REMOVALS
-mv ./$APP.AppDir/.junest/usr/lib/libLLVM-* ./junest-backups/usr/lib/ #INCLUDED IN THE COMPILATION PHASE, CAN SOMETIMES BE EXCLUDED FOR DAILY USE
+rm -R -f ./$APP.AppDir/.junest/usr/lib/libLLVM-* #INCLUDED IN THE COMPILATION PHASE, CAN SOMETIMES BE EXCLUDED FOR DAILY USE
 rm -R -f ./$APP.AppDir/.junest/usr/lib/python*/__pycache__/* #IF PYTHON IS INSTALLED, REMOVING THIS DIRECTORY CAN SAVE SEVERAL MEGABYTES
 
 # REMOVE THE INBUILT HOME
@@ -348,5 +352,8 @@ mkdir -p ./$APP.AppDir/.junest/usr/share/themes
 mkdir -p ./$APP.AppDir/.junest/run/user
 
 # CREATE THE APPIMAGE
+if test -f ./*.AppImage; then
+	rm -R -f ./*archimage*.AppImage
+fi
 ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP.AppDir
-mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-jre8-with-plugins-type3-archimage3.2-2-x86_64.AppImage
+mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-jre8-with-plugins-archimage3.4-x86_64.AppImage
