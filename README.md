@@ -1,4 +1,4 @@
-This repository provides AppImages of VLC built from PPAs (legacy) and the Stable and the GIT versions based on JuNest, the lightweight Arch Linux based distro that runs, without root privileges, on top of any other Linux distro. Learn more about JuNest and the ArchImage project:
+This repository provides AppImages of VLC Stable and the GIT versions based on JuNest, the lightweight Arch Linux based distro that runs, without root privileges, on top of any other Linux distro. Learn more about JuNest and the ArchImage project:
 
 - JuNest https://github.com/fsquillace/junest
 - ArchImage https://github.com/ivan-hc/ArchImage
@@ -7,32 +7,30 @@ This repository also provides installation scripts to build the AppImages from P
 
 *NOTE: the 32-bit version for the old i386 architectures is available at [ivan-hc/32-bit-AppImage-packages-database](https://github.com/ivan-hc/32-bit-AppImage-packages-database), download it from [here](https://github.com/ivan-hc/32-bit-AppImage-packages-database/releases/tag/vlc).*
 
-# How to buid the "ArchImage" by yourself
+------------------------------------------------------------------------
 
-    mkdir tmp
-    cd tmp
-    wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc-junest.sh
-    chmod a+x ./vlc-junest.sh
-    ./vlc-junest.sh
-If the mirrorlist is updated correctly (see lines 30-32) the script should build the AppImage in two minutes or less. In case of problems with mirrorlist, comment lines 30-32, JuNest will use the defaults.
+## Install and update them all with ease
 
-And when the script has finished, just run the AppImage:
+### *"*AM*" Application Manager* 
+#### *Package manager, database & solutions for all AppImages and portable apps for GNU/Linux!*
 
-    ./*AppImage
-The final size is less than 200MB and can still be lighter. Just analyze the vlc.AppDir to check the unneeded files (currently removed files are listed by line 115).
+[![Istantanea_2024-06-26_17-00-46 png](https://github.com/ivan-hc/AM/assets/88724353/671f5eb0-6fb6-4392-b45e-af0ea9271d9b)](https://github.com/ivan-hc/AM)
 
----------------------------------
+[![Readme](https://img.shields.io/github/stars/ivan-hc/AM?label=%E2%AD%90&style=for-the-badge)](https://github.com/ivan-hc/AM/stargazers) [![Readme](https://img.shields.io/github/license/ivan-hc/AM?label=&style=for-the-badge)](https://github.com/ivan-hc/AM/blob/main/LICENSE)
 
-## Install and update it with ease
+*"AM"/"AppMan" is a set of scripts and modules for installing, updating, and managing AppImage packages and other portable formats, in the same way that APT manages DEBs packages, DNF the RPMs, and so on... using a large database of Shell scripts inspired by the Arch User Repository, each dedicated to an app or set of applications.*
 
-I wrote two bash scripts to install and manage the applications: [AM](https://github.com/ivan-hc/AM-Application-Manager) and [AppMan](https://github.com/ivan-hc/AppMan). Their dual existence is based on the needs of the end user.
+*The engine of "AM"/"AppMan" is the "APP-MANAGER" script which, depending on how you install or rename it, allows you to install apps system-wide (for a single system administrator) or locally (for each user).*
 
-| [**"AM" Application Manager**](https://github.com/ivan-hc/AM-Application-Manager) |
-| -- |
-| <sub>***If you want to install system-wide applications on your GNU/Linux distribution in a way that is compatible with [Linux Standard Base](https://refspecs.linuxfoundation.org/lsb.shtml) (all third-party apps must be installed in dedicated directories under `/opt` and their launchers and binaries in `/usr/local/*` ...), just use ["AM" Application Manager](https://github.com/ivan-hc/AM-Application-Manager). This app manager requires root privileges only to install / remove applications, the main advantage of this type of installation is that the same applications will be available to all users of the system.***</sub>
-[![Readme](https://img.shields.io/github/stars/ivan-hc/AM-Application-Manager?label=%E2%AD%90&style=for-the-badge)](https://github.com/ivan-hc/AM-Application-Manager/stargazers) [![Readme](https://img.shields.io/github/license/ivan-hc/AM-Application-Manager?label=&style=for-the-badge)](https://github.com/ivan-hc/AM-Application-Manager/blob/main/LICENSE)
+*"AM"/"AppMan" aims to be the default package manager for all AppImage packages, giving them a home to stay.*
 
-| [**"AppMan"**](https://github.com/ivan-hc/AppMan)
-| --
-| <sub>***If you don't want to put your app manager in a specific path but want to use it portable and want to install / update / manage all your apps locally, download ["AppMan"](https://github.com/ivan-hc/AppMan) instead. With this script you will be able to decide where to install your applications (at the expense of a greater consumption of resources if the system is used by more users). AppMan is portable, all you have to do is write the name of a folder in your `$HOME` where you can install all the applications available in [the "AM" database](https://github.com/ivan-hc/AM-Application-Manager/tree/main/programs), and without root privileges.***</sub>
-[![Readme](https://img.shields.io/github/stars/ivan-hc/AppMan?label=%E2%AD%90&style=for-the-badge)](https://github.com/ivan-hc/AppMan/stargazers) [![Readme](https://img.shields.io/github/license/ivan-hc/AppMan?label=&style=for-the-badge)](https://github.com/ivan-hc/AppMan/blob/main/LICENSE)
+*You can consult the entire **list of managed apps** at [**portable-linux-apps.github.io/apps**](https://portable-linux-apps.github.io/apps).*
+
+## *Go to *https://github.com/ivan-hc/AM* for more!*
+
+------------------------------------------------------------------------
+
+| [***Install "AM"***](https://github.com/ivan-hc/AM) | [***See all available apps***](https://portable-linux-apps.github.io) | [***Support me on ko-fi.com***](https://ko-fi.com/IvanAlexHC) | [***Support me on PayPal.me***](https://paypal.me/IvanAlexHC) |
+| - | - | - | - |
+
+------------------------------------------------------------------------
