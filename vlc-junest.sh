@@ -141,7 +141,7 @@ BINDS=" --dev-bind /dev /dev \
 	--bind-try /usr/lib/locale /usr/lib/locale \
 	--bind-try /usr/share/fonts /usr/share/fonts \
 	--bind-try /usr/share/themes /usr/share/themes \
-	--bind-try /run /run \
+	--bind-try /run/user /run/user \
 	--bind-try /var /var \
 	"
 
