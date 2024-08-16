@@ -123,26 +123,27 @@ export UNION_PRELOAD=$HERE
 export JUNEST_HOME=$HERE/.junest
 export PATH=$PATH:$HERE/.local/share/junest/bin
 
-if test -f /etc/resolv.conf; then
-ETC_RESOLV=' --bind /etc/resolv.conf /etc/resolv.conf '; fi
-if test -d /media; then
-MNT_MEDIA_DIR=' --bind /media /media '; fi
-if test -d /mnt; then
-MNT_DIR=' --bind /mnt /mnt '; fi
-if test -d /opt; then
-OPT_DIR=' --bind /opt /opt '; fi
-if test -d /run/user; then
-USR_LIB_LOCALE_DIR=' --bind /usr/lib/locale /usr/lib/locale '; fi
-if test -d /usr/share/fonts; then
-USR_SHARE_FONTS_DIR=' --bind /usr/share/fonts /usr/share/fonts '; fi
-if test -d /usr/share/themes; then
-USR_SHARE_THEMES_DIR=' --bind /usr/share/themes /usr/share/themes '; fi
-
-BINDS=" $ETC_RESOLV $MNT_MEDIA_DIR $MNT_DIR $OPT_DIR $USR_LIB_LOCALE_DIR $USR_SHARE_FONTS_DIR $USR_SHARE_THEMES_DIR "
-
-if test -f $JUNEST_HOME/usr/lib/libselinux.so; then
-	export LD_LIBRARY_PATH=/lib/:/lib64/:/lib/x86_64-linux-gnu/:/usr/lib/:"${LD_LIBRARY_PATH}"
-fi
+BINDS=" --dev-bind /dev /dev \
+	--ro-bind /sys /sys \
+	--bind-try /tmp /tmp \
+	--proc /proc \
+	--ro-bind-try /etc/resolv.conf /etc/resolv.conf \
+	--ro-bind-try /etc/hosts /etc/hosts \
+	--ro-bind-try /etc/nsswitch.conf /etc/nsswitch.conf \
+	--ro-bind-try /etc/passwd /etc/passwd \
+	--ro-bind-try /etc/group /etc/group \
+	--ro-bind-try /etc/machine-id /etc/machine-id \
+	--ro-bind-try /etc/asound.conf /etc/asound.conf \
+	--ro-bind-try /etc/localtime /etc/localtime \
+	--bind-try /media /media \
+	--bind-try /mnt /mnt \
+	--bind-try /opt /opt \
+	--bind-try /usr/lib/locale /usr/lib/locale \
+	--bind-try /usr/share/fonts /usr/share/fonts \
+	--bind-try /usr/share/themes /usr/share/themes \
+	--bind-try /run /run \
+	--bind-try /var /var \
+	"
 
 EXEC=$(grep -e '^Exec=.*' "${HERE}"/*.desktop | head -n 1 | cut -d "=" -f 2- | sed -e 's|%.||g')
 $HERE/.local/share/junest/bin/junest -n -b "$BINDS" -- $EXEC "$@"
@@ -153,7 +154,7 @@ chmod a+x ./AppRun
 sed -i 's#${JUNEST_HOME}/usr/bin/junest_wrapper#${HOME}/.cache/junest_wrapper.old#g' ./.local/share/junest/lib/core/wrappers.sh
 sed -i 's/rm -f "${JUNEST_HOME}${bin_path}_wrappers/#rm -f "${JUNEST_HOME}${bin_path}_wrappers/g' ./.local/share/junest/lib/core/wrappers.sh
 sed -i 's/ln/#ln/g' ./.local/share/junest/lib/core/wrappers.sh
-sed -i 's#--bind "$HOME" "$HOME"#--bind /home /home --bind-try /run/user /run/user#g' .local/share/junest/lib/core/namespace.sh
+sed -i 's#--bind "$HOME" "$HOME"#--bind-try /home /home#g' .local/share/junest/lib/core/namespace.sh
 sed -i 's/rm -f "$file"/test -f "$file"/g' ./.local/share/junest/lib/core/wrappers.sh
 
 # EXIT THE APPDIR
@@ -357,6 +358,8 @@ mkdir -p ./$APP.AppDir/.junest/usr/lib/locale
 mkdir -p ./$APP.AppDir/.junest/usr/share/fonts
 mkdir -p ./$APP.AppDir/.junest/usr/share/themes
 mkdir -p ./$APP.AppDir/.junest/run/user
+
+rm -f ./$APP.AppDir/.junest/etc/localtime && touch ./$APP.AppDir/.junest/etc/localtime
 
 # CREATE THE APPIMAGE
 if test -f ./*.AppImage; then
