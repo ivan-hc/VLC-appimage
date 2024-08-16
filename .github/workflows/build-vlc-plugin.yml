@@ -17,7 +17,7 @@ jobs:
     - name: build
       run: |
         sudo apt update
-        sudo apt install libfuse2 desktop-file-utils desktop-file-utils
+        sudo apt install libfuse2 desktop-file-utils
         wget https://raw.githubusercontent.com/ivan-hc/VLC-appimage/main/vlc-plugins-junest.sh
         chmod a+x ./vlc-plugins-junest.sh
         ./vlc-plugins-junest.sh
