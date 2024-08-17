@@ -3,7 +3,7 @@
 # NAME OF THE APP BY REPLACING "SAMPLE"
 APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
-DEPENDENCES="ca-certificates libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread zvbi kvantum kvantum-qt5 qt5ct qt6ct"
+DEPENDENCES="ca-certificates libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread zvbi kvantum kvantum-qt5 qt5ct qt6ct alsa-lib"
 BASICSTUFF="binutils debugedit gzip"
 COMPILERS="base-devel"
 
@@ -212,7 +212,8 @@ rm -R -f ./$APP.AppDir/.junest/var/* #REMOVE ALL PACKAGES DOWNLOADED WITH THE PA
 # SAVE FILES USING KEYWORDS
 BINSAVED="certificates SAVEBINSPLEASE" # Enter here keywords to find and save in /usr/bin
 SHARESAVED="certificates qt" # Enter here keywords or file/folder names to save in both /usr/share and /usr/lib
-LIBSAVED="pk p11 alsa jack libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread pipewire pulse v4l"
+lib_browser_launcher="gio-launch-desktop libdl.so libpthread.so librt.so libasound.so libX11-xcb.so" # Libraries and files needed to launche the default browser
+LIBSAVED="pk p11 alsa jack libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread pipewire pulse v4l $lib_browser_launcher"
 
 # STEP 2, FUNCTION TO SAVE THE BINARIES IN /usr/bin THAT ARE NEEDED TO MADE JUNEST WORK, PLUS THE MAIN BINARY/BINARIES OF THE APP
 # IF YOU NEED TO SAVE MORE BINARIES, LIST THEM IN THE "BINSAVED" VARIABLE. COMMENT THE LINE "_savebins" IF YOU ARE NOT SURE.
