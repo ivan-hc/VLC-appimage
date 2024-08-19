@@ -362,4 +362,4 @@ if test -f ./*.AppImage; then
 	rm -R -f ./*archimage*.AppImage
 fi
 ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 ./$APP.AppDir
-mv ./*AppImage ./VLC-media-player-GIT_"$VERSION"-jre8-with-plugins-archimage3.4-x86_64.AppImage
+mv ./*AppImage ./VLC-media-player-GIT_"$VERSION"-jre8-archimage3.4-x86_64.AppImage
