@@ -358,6 +358,7 @@ mkdir -p ./$APP.AppDir/.junest/usr/lib/locale
 mkdir -p ./$APP.AppDir/.junest/usr/share/fonts
 mkdir -p ./$APP.AppDir/.junest/usr/share/themes
 mkdir -p ./$APP.AppDir/.junest/run/user
+[ ! -f ./"$APP".AppDir/.junest/etc/asound.conf ] && touch ./"$APP".AppDir/.junest/etc/asound.conf
 
 rm -f ./$APP.AppDir/.junest/etc/localtime && touch ./$APP.AppDir/.junest/etc/localtime
 
