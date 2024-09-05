@@ -48,5 +48,5 @@ jobs:
             prerelease: false
             draft: false
             files: |
-              VLC_media_player-x86_64.AppImage
+              *.AppImage
             repo_token: ${{ secrets.GITHUB_TOKEN }}
