@@ -350,7 +350,7 @@ rsync -av ./deps/* ./$APP.AppDir/.junest/
 rm -R -f ./$APP.AppDir/.junest/usr/lib/libLLVM-* #INCLUDED IN THE COMPILATION PHASE, CAN SOMETIMES BE EXCLUDED FOR DAILY USE
 rm -R -f ./$APP.AppDir/.junest/usr/lib/python*/__pycache__/* #IF PYTHON IS INSTALLED, REMOVING THIS DIRECTORY CAN SAVE SEVERAL MEGABYTES
 rm -R -f ./$APP.AppDir/.junest/usr/share/man
-[ "$QTVER" = qt5-base ] && rm -R -f ./$APP.AppDir/.junest/usr/lib/qt6 ./$APP.AppDir/.junest/usr/share/qt6
+[ "$QTVER" = qt5-base ] && rm -R -f ./$APP.AppDir/.junest/usr/lib/qt6 ./$APP.AppDir/.junest/usr/lib/libQt6* ./$APP.AppDir/.junest/usr/share/qt6
 
 # REMOVE THE INBUILT HOME
 rm -R -f ./$APP.AppDir/.junest/home
