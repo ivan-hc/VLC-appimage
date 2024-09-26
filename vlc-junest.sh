@@ -3,7 +3,9 @@
 # NAME OF THE APP BY REPLACING "SAMPLE"
 APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
-DEPENDENCES="ca-certificates libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread zvbi kvantum kvantum-qt5 qt5ct qt6ct alsa-lib"
+QTVER=$(curl -Ls https://archlinux.org/packages/extra/x86_64/vlc/ | tr '"><' '\n' | grep "^qt.*base$" | head -1)
+[ "$QTVER" = qt5-base ] && kvantumver="kvantum-qt5 qt5ct" || kvantumver="kvantum qt6ct"
+DEPENDENCES="ca-certificates libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread zvbi $kvantumver alsa-lib"
 BASICSTUFF="binutils debugedit gzip"
 COMPILERS="base-devel"
 
@@ -347,6 +349,7 @@ rsync -av ./deps/* ./$APP.AppDir/.junest/
 # ADDITIONAL REMOVALS
 rm -R -f ./$APP.AppDir/.junest/usr/lib/libLLVM-* #INCLUDED IN THE COMPILATION PHASE, CAN SOMETIMES BE EXCLUDED FOR DAILY USE
 rm -R -f ./$APP.AppDir/.junest/usr/lib/python*/__pycache__/* #IF PYTHON IS INSTALLED, REMOVING THIS DIRECTORY CAN SAVE SEVERAL MEGABYTES
+rm -R -f ./$APP.AppDir/.junest/usr/share/man
 
 # REMOVE THE INBUILT HOME
 rm -R -f ./$APP.AppDir/.junest/home
