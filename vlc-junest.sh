@@ -351,6 +351,8 @@ rm -R -f ./$APP.AppDir/.junest/usr/lib/libLLVM-* #INCLUDED IN THE COMPILATION PH
 rm -R -f ./$APP.AppDir/.junest/usr/lib/python*/__pycache__/* #IF PYTHON IS INSTALLED, REMOVING THIS DIRECTORY CAN SAVE SEVERAL MEGABYTES
 rm -R -f ./$APP.AppDir/.junest/usr/share/man
 [ "$QTVER" = qt5-base ] && rm -R -f ./$APP.AppDir/.junest/usr/lib/qt6 ./$APP.AppDir/.junest/usr/lib/libQt6* ./$APP.AppDir/.junest/usr/share/qt6
+strip --strip-debug ./$APP.AppDir/.junest/usr/lib/*
+strip --strip-unneeded ./$APP.AppDir/.junest/usr/bin/*
 
 # REMOVE THE INBUILT HOME
 rm -R -f ./$APP.AppDir/.junest/home
