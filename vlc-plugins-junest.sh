@@ -3,7 +3,9 @@
 # NAME OF THE APP BY REPLACING "SAMPLE"
 APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
-DEPENDENCES="jre8-openjdk ca-certificates libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread libvdpau libxtst libxi vlc-bittorrent zvbi kvantum kvantum-qt5 qt5ct qt6ct"
+QTVER=$(curl -Ls https://archlinux.org/packages/extra/x86_64/vlc/ | tr '"><' '\n' | grep "^qt.*base$" | head -1)
+[ "$QTVER" = qt5-base ] && kvantumver="kvantum-qt5 qt5ct qt5-wayland" || kvantumver="kvantum qt6ct qt6-wayland"
+DEPENDENCES="jre8-openjdk ca-certificates libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread libvdpau libxtst libxi vlc-bittorrent zvbi $kvantumver"
 BASICSTUFF="binutils debugedit gzip"
 COMPILERS="base-devel"
 
@@ -215,7 +217,7 @@ rm -R -f ./$APP.AppDir/.junest/var/* #REMOVE ALL PACKAGES DOWNLOADED WITH THE PA
 # SAVE FILES USING KEYWORDS
 BINSAVED="certificates SAVEBINSPLEASE" # Enter here keywords to find and save in /usr/bin
 SHARESAVED="certificates qt java" # Enter here keywords or file/folder names to save in both /usr/share and /usr/lib
-LIBSAVED="pk p11 alsa jack libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread pipewire pulse v4l jvm libxtst libxi"
+LIBSAVED="pk p11 alsa jack libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread pipewire pulse v4l jvm libxtst libxi wayland"
 
 # STEP 2, FUNCTION TO SAVE THE BINARIES IN /usr/bin THAT ARE NEEDED TO MADE JUNEST WORK, PLUS THE MAIN BINARY/BINARIES OF THE APP
 # IF YOU NEED TO SAVE MORE BINARIES, LIST THEM IN THE "BINSAVED" VARIABLE. COMMENT THE LINE "_savebins" IF YOU ARE NOT SURE.
