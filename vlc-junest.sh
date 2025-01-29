@@ -16,7 +16,7 @@ BINSAVED="convert qt5ct qt6ct svg"
 SHARESAVED="certificates"
 lib_audio_keywords="alsa jack pipewire pulse"
 lib_browser_launcher="gio-launch-desktop libasound.so libatk-bridge libatspi libcloudproviders libdb- libdl.so libedit libepoxy libgtk-3.so.0 libjson-glib libnssutil libpthread.so librt.so libtinysparql libwayland-cursor libX11-xcb.so libxapp-gtk3-module.so libXcursor libXdamage libXi.so libxkbfile.so libXrandr p11 pk"
-LIBSAVED="avc codec convert libGLX libsensors.so libsoxr libxcb svg video $lib_audio_keywords $lib_browser_launcher"
+LIBSAVED="avc codec convert libGLX libsensors.so libsoxr libxcb svg video libSDL $lib_audio_keywords $lib_browser_launcher"
 
 [ -n "$lib_browser_launcher" ] && DEPENDENCES="$DEPENDENCES xapp hicolor-icon-theme"
 
