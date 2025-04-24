@@ -143,7 +143,7 @@ sed -i 's/LANG=${LANG:-C}/LANG=$LANG/g' archlinux/.junest/etc/profile.d/locale.s
 
 # Add launcher and icon
 rm -f ./*.desktop
-LAUNCHER=$(grep -iRl "$BIN" archlinux/.junest/usr/share/applications/* | grep ".desktop" | head -1)
+LAUNCHER=$(grep -iRl "$BIN" archlinux/.junest/usr/share/applications/* | grep -i "vlc.desktop" | head -1)
 cp -r "$LAUNCHER" "$APP".AppDir/
 ICON=$(cat "$LAUNCHER" | grep "Icon=" | cut -c 6-)
 [ -z "$ICON" ] && ICON="$BIN"
