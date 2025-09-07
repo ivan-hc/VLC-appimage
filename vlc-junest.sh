@@ -4,7 +4,7 @@ APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
 QTVER=$(curl -Ls https://archlinux.org/packages/extra/x86_64/vlc/ | tr '"><' '\n' | grep "^qt.*base$" | head -1)
 [ "$QTVER" = qt5-base ] && kvantumver="kvantum-qt5 qt5ct qt5-wayland" || kvantumver="kvantum qt6ct qt6-wayland"
-DEPENDENCES="ca-certificates ca-certificates-mozilla $kvantumver" #SYNTAX: "APP1 APP2 APP3 APP4...", LEAVE BLANK IF NO OTHER DEPENDENCIES ARE NEEDED
+DEPENDENCES="ca-certificates ca-certificates-mozilla $QTVER libxkbcommon-x11 $kvantumver" #SYNTAX: "APP1 APP2 APP3 APP4...", LEAVE BLANK IF NO OTHER DEPENDENCIES ARE NEEDED
 #BASICSTUFF="binutils debugedit gzip"
 #COMPILERS="base-devel"
 
@@ -16,7 +16,7 @@ BINSAVED="convert qt5ct qt6ct svg"
 SHARESAVED="certificates"
 lib_audio_keywords="alsa jack pipewire pulse"
 lib_browser_launcher="gio-launch-desktop libasound.so libatk-bridge libatspi libcloudproviders libdb- libdl.so libedit libepoxy libgtk-3.so.0 libjson-glib libnssutil libpthread.so librt.so libtinysparql libwayland-cursor libX11-xcb.so libxapp-gtk3-module.so libXcursor libXdamage libXi.so libxkbfile.so libXrandr p11 pk"
-LIBSAVED="avc codec convert libGLX libsensors.so libsoxr libxcb svg video libSDL $lib_audio_keywords $lib_browser_launcher"
+LIBSAVED="avc codec convert libGLX libsensors.so libsoxr libxcb svg video XcbQpa libSDL libICE libxkbcommon libuuid $lib_audio_keywords $lib_browser_launcher"
 
 [ -n "$lib_browser_launcher" ] && DEPENDENCES="$DEPENDENCES xapp hicolor-icon-theme"
 
