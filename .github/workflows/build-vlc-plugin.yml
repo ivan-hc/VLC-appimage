@@ -41,6 +41,26 @@ jobs:
           with:
             name: VLC_media_player-with-plugins-x86_64.AppImage
 
+        # Snapshot Release
+        - name: get date
+          run: |
+            SNAPSHOT_TAG="$(date --utc +'%Y%m%d-%H%M%S')"
+            echo SNAPSHOT_TAG="${SNAPSHOT_TAG}" >> "${GITHUB_ENV}"
+          continue-on-error: false
+        - name: create snapshot
+          uses: softprops/action-gh-release@v2
+          with:
+            name: "Snapshot vlc+ ${{ env.SNAPSHOT_TAG}}"
+            tag_name: "${{ env.SNAPSHOT_TAG}}"
+            prerelease: false
+            draft: false
+            generate_release_notes: false
+            make_latest: false
+            files: |
+              *.AppImage*
+          continue-on-error: false
+
+        # Continuous release
         - name: release
           uses: marvinpinto/action-automatic-releases@latest
           with:
