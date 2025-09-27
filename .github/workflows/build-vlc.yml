@@ -50,7 +50,7 @@ jobs:
         - name: create snapshot
           uses: softprops/action-gh-release@v2
           with:
-            name: "Snapshot full ${{ env.SNAPSHOT_TAG}}"
+            name: "Snapshot ${{ env.SNAPSHOT_TAG}}"
             tag_name: "${{ env.SNAPSHOT_TAG}}"
             prerelease: false
             draft: false
