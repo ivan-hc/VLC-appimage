@@ -64,7 +64,7 @@ jobs:
         - name: release
           uses: marvinpinto/action-automatic-releases@latest
           with:
-            title: Continuous Stable build
+            title: Continuous Stable build (JuNest Arch Linux-based AppImage)
             automatic_release_tag: continuous
             prerelease: false
             draft: false
