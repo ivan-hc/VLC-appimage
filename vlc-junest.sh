@@ -4,9 +4,10 @@ APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
 QTVER=$(curl -Ls https://archlinux.org/packages/extra/x86_64/vlc/ | tr '"><' '\n' | grep "^qt.*base$" | head -1)
 [ "$QTVER" = qt5-base ] && kvantumver="kvantum-qt5 qt5ct qt5-wayland" || kvantumver="kvantum qt6ct qt6-wayland"
-DEPENDENCES="ca-certificates ca-certificates-mozilla $QTVER libxkbcommon-x11 vlc-plugins-all $kvantumver" #SYNTAX: "APP1 APP2 APP3 APP4...", LEAVE BLANK IF NO OTHER DEPENDENCIES ARE NEEDED
-#BASICSTUFF="binutils debugedit gzip"
-#COMPILERS="base-devel"
+DEPENDENCES="ca-certificates ca-certificates-mozilla $QTVER libxkbcommon-x11 vlc-plugins-all $kvantumver \
+jre8-openjdk libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread libvdpau libxtst libxi vlc-bittorrent zvbi" # vlc+ stuff
+BASICSTUFF="binutils debugedit gzip"
+COMPILERS="base-devel"
 
 #############################################################################
 #	KEYWORDS TO FIND AND SAVE WHEN COMPILING THE APPIMAGE
@@ -81,7 +82,7 @@ _install_junest() {
 	rm -f junest-x86_64.tar.gz
 	echo " Apply patches to PacMan..."
 	#_enable_multilib
-	#_enable_chaoticaur
+	_enable_chaoticaur
 	_custom_mirrorlist
 	_bypass_signature_check_level
 
@@ -140,9 +141,8 @@ sed -i 's/LANG=${LANG:-C}/LANG=$LANG/g' archlinux/.junest/etc/profile.d/locale.s
 
 # Add launcher and icon
 rm -f ./*.desktop
-LAUNCHER=$(grep -iRl "$BIN" archlinux/.junest/usr/share/applications/* | grep ".desktop" | head -1)
-cp -r "$LAUNCHER" "$APP".AppDir/
-ICON=$(cat "$LAUNCHER" | grep "Icon=" | cut -c 6-)
+cp -r archlinux/.junest/usr/share/applications/"$BIN".desktop "$APP".AppDir/
+ICON=$(cat "$APP".AppDir/"$BIN".desktop | grep "Icon=" | cut -c 6-)
 [ -z "$ICON" ] && ICON="$BIN"
 cp -r archlinux/.junest/usr/share/icons/*"$ICON"* "$APP".AppDir/ 2>/dev/null
 cp -r archlinux/.junest/usr/share/icons/hicolor/22x22/apps/*"$ICON"* "$APP".AppDir/ 2>/dev/null
@@ -337,7 +337,7 @@ _extract_package() {
 			tar fx "$pkg_full_path" -C ./deps/ --warning=no-unknown-keyword
 			echo "$pkgname" >> ./packages
 		fi
-		[ -n "$lib_browser_launcher" ] && [[ "$arg" =~ (aom|dav1d|rav1e|svt-av1|libdv|x265|x264|libmpeg2|xvidcore|libtheora|libvpx|ffmpeg*|gstreamer|hicolor-icon-theme|libvlc|xapp) ]] && tar fx "$pkg_full_path" -C ./base/ --warning=no-unknown-keyword --exclude='.PKGINFO'
+		[ -n "$lib_browser_launcher" ] && [[ "$arg" =~ (aom|dav1d|rav1e|svt-av1|libdv|x265|x264|libmpeg2|xvidcore|libtheora|libvpx|ffmpeg*|gstreamer|hicolor-icon-theme|libvlc|xapp|jre8-openjdk|libaacs|libbluray|libbdplus|libdvdcss|libdvdnav|libdvdread|libvdpau|libxtst|libxi|vlc-bittorrent|zvbi) ]] && tar fx "$pkg_full_path" -C ./base/ --warning=no-unknown-keyword --exclude='.PKGINFO'
 	fi
 }
 
