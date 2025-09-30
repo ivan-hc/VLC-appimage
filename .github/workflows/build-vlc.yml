@@ -5,7 +5,7 @@ concurrency:
 
 on:
   schedule:
-    - cron: "0 16 1/2 * *"
+    - cron: "0 16 1/3 * *"
   workflow_dispatch:
 
 jobs:
@@ -64,7 +64,7 @@ jobs:
         - name: release
           uses: marvinpinto/action-automatic-releases@latest
           with:
-            title: Continuous build (JuNest Arch Linux-based AppImage)
+            title: Continuous Stable build (JuNest Arch Linux-based AppImage)
             automatic_release_tag: continuous
             prerelease: false
             draft: false
