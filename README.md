@@ -7,6 +7,14 @@ This repository provides AppImages of VLC Stable and the GIT versions based on J
 
 ------------------------------------------------------------------------
 
+### NOTE: from September 30, 2025, the "VLC with Plugins" build has been merged with the "Stable" build.
+
+**The "continuous-with-plugins" tag will no longer be updated. Please rely on the "[continuous](https://github.com/ivan-hc/VLC-appimage/releases/tag/continuous)" tag.**
+
+**Weekly snapshots will be created to ensure VLC remains usable in case new bugs are introduced upstream.**
+
+------------------------------------------------------------------------
+
 ## Install and update them all with ease
 
 ### *"*AM*" Application Manager* 
