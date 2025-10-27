@@ -33,7 +33,7 @@ _post_installation_processes() {
 	echo " - Fix vlc-cache-gen"
 	rm -Rf AppDir/.junest/usr/lib/vlc/* && rsync -av archlinux/.junest/usr/lib/vlc/* AppDir/.junest/usr/lib/vlc/ || exit 1
 	echo " - Fix .desktop file"
-	rm -f AppDir/.desktop && cp -r archlinux/.junest/usr/share/applications/vlc.desktop AppDir/
+	rm -f AppDir/*.desktop && cp -r archlinux/.junest/usr/share/applications/vlc.desktop AppDir/
 }
 
 ##########################################################################################################################################################
