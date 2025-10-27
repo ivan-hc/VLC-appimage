@@ -72,8 +72,8 @@ _enable_chaoticaur() {
 }
 
 _enable_archlinuxcn() {
-	_JUNEST_CMD -- sudo pacman --noconfirm -U "https://mirrors.xtom.ee/archlinuxcn/x86_64/$(curl -Ls https://mirrors.xtom.ee/archlinuxcn/x86_64/ | tr '"' '\n' | grep "^archlinuxcn-keyring.*zst$" | tail -1)"
-	printf "\n[archlinuxcn]\n#SigLevel = Never\nServer = https://mirrors.xtom.ee/archlinuxcn/\$arch" >> ./.junest/etc/pacman.conf
+	_JUNEST_CMD -- sudo pacman --noconfirm -U "https://repo.archlinuxcn.org/x86_64/$(curl -Ls https://repo.archlinuxcn.org/x86_64/ | tr '"' '\n' | grep "^archlinuxcn-keyring.*zst$" | tail -1)"
+	printf "\n[archlinuxcn]\n#SigLevel = Never\nServer = http://repo.archlinuxcn.org/\$arch" >> ./.junest/etc/pacman.conf
 }
 
 _custom_mirrorlist() {
