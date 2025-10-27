@@ -188,4 +188,4 @@ _appimagetool() {
 }
 
 ARCH=x86_64 _appimagetool -u "$UPINFO" \
-	AppDir "$APPNAME"_"$VERSION"-archimage5.0-x86_64.AppImage
+	AppDir "$APPNAME"_GIT_"$VERSION"-archimage5.0-x86_64.AppImage
