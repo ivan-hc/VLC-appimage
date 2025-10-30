@@ -31,9 +31,11 @@ mountpoint_dirs=""
 _post_installation_processes() {
 	printf "\n◆ User's processes: \n\n"
 	echo " - Fix vlc-cache-gen"
-	rm -Rf AppDir/.junest/usr/lib/vlc/* && rsync -av archlinux/.junest/usr/lib/vlc/* AppDir/.junest/usr/lib/vlc/ || exit 1
-	echo " - Fix .desktop file"
-	rm -f AppDir/*.desktop && cp -r archlinux/.junest/usr/share/applications/vlc.desktop AppDir/
+	cd archlinux || exit 1
+	_JUNEST_CMD -- /usr/lib/vlc/vlc-cache-gen
+	cd .. || exit 1
+	rm -Rf AppDir/.junest/usr/lib/vlc/*
+	rsync -av archlinux/.junest/usr/lib/vlc/* AppDir/.junest/usr/lib/vlc/ || exit 1
 }
 
 ##########################################################################################################################################################
