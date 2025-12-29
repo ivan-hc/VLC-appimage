@@ -2,7 +2,7 @@
 
 APP=vlc
 BIN="$APP" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
-QTVER=$(curl -Ls https://archlinux.org/packages/extra/x86_64/avidemux-qt/ | tr '"><' '\n' | grep "^qt.*base$" | head -1)
+QTVER=$(curl -Ls https://archlinux.org/packages/extra/x86_64/vlc/ | tr '"><' '\n' | grep "^qt.*base$" | head -1)
 [ -z "$QTVER" ] && exit 0; if [ "$QTVER" = qt5-base ]; then kvantumver="kvantum-qt5" qtctver="qt5ct" qtremoval="qt6 Qt6"; else kvantumver="kvantum" qtctver="qt6ct"; fi
 vlc_plugins="vlc-bittorrent vlc-plugin-ffmpeg vlc-plugin-firewire vlc-plugin-fluidsynth vlc-plugin-gstreamer vlc-plugin-jack vlc-plugin-kwallet vlc-plugin-libsecret vlc-plugin-lua vlc-plugin-notify vlc-pause-click-plugin vlc-plugin-pulse vlc-plugin-smb vlc-plugin-svg vlc-plugin-x264 vlc-plugin-x265 vlc-plugins-base vlc-plugins-extra vlc-plugins-video-output vlc-plugins-visualization vlc-plugins-all vlc-plugins-base"
 DEPENDENCES="ca-certificates ca-certificates-mozilla $kvantumver jre8-openjdk libaacs libbluray libbdplus libdvdcss libdvdnav libdvdread libvdpau libxtst libxi lua $vlc_plugins $qtctver zvbi" #SYNTAX: "APP1 APP2 APP3 APP4...", LEAVE BLANK IF NO OTHER DEPENDENCIES ARE NEEDED
