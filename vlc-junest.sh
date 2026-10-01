@@ -12,7 +12,7 @@ COMPILERS="base-devel"
 # Set keywords to searchan include in names of directories and files in /usr/bin (BINSAVED), /usr/share (SHARESAVED) and /usr/lib (LIBSAVED)
 BINSAVED="convert qt5ct qt6ct svg"
 SHARESAVED="certificates"
-LIBSAVED="avc codec convert libGLX libsensors.so libsoxr libxcb svg video XcbQpa libSDL libICE libxkbcommon libuuid"
+LIBSAVED="avc codec convert libGLX libsensors.so libsoxr libxcb svg video XcbQpa libSDL libICE libxkbcommon libuuid vlc"
 
 # Set the items you want to manually REMOVE. Complete the path in /etc/, /usr/bin/, /usr/lib/, /usr/lib/python*/ and /usr/share/ respectively.
 # The "rm" command will take into account the listed object/path and add an asterisk at the end, completing the path to be removed.
